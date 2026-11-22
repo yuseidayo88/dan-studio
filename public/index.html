@@ -44,18 +44,6 @@ a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}img{disp
   .hero-wave img, .hero-wave canvas { transition: none; }
 }
 
-
-/* Japanese-first headings: preserve whitespace and avoid awkward mobile line breaks. */
-.section-heading h2{font-size:clamp(38px,4.6vw,58px);line-height:1.22;letter-spacing:-.055em;word-break:keep-all;overflow-wrap:normal}
-@media(max-width:620px){
-  .section-heading h2{font-size:clamp(33px,9vw,41px);line-height:1.25;letter-spacing:-.045em}
-  .hero-aside{flex-wrap:wrap;row-gap:5px}
-  .hero-footnote{gap:12px}
-  .hero-footnote a{white-space:nowrap}
-  .price-row h3{font-size:18px}
-  .step h3{font-size:16px;line-height:1.4}
-  .footer-links{flex-wrap:wrap;row-gap:8px}
-}
 </style>
   
   <title>dan. — Vocal Mixing & Editing</title>
@@ -66,10 +54,10 @@ a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}img{disp
     <div class="shell header-inner">
       <a class="wordmark" href="#top" aria-label="dan. トップ">dan<span>.</span></a>
       <nav class="desktop-nav" aria-label="メインナビゲーション">
-        <a href="#price">料金</a>
-        <a href="#order">ご依頼の流れ</a>
-        <a href="#data">音源の送り方</a>
-        <a href="#faq">よくある質問</a>
+        <a href="#price">Price</a>
+        <a href="#order">Order</a>
+        <a href="#data">Data Guide</a>
+        <a href="#faq">FAQ</a>
       </nav>
       <a class="header-x" href="https://x.com/danstudio_wav" target="_blank" rel="noopener noreferrer" aria-label="dan. のXを開く">X <span aria-hidden="true">↗</span></a>
       <button class="menu-toggle" type="button" aria-controls="mobile-menu" aria-expanded="false" aria-label="メニューを開く">
@@ -77,7 +65,7 @@ a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}img{disp
       </button>
     </div>
     <nav class="mobile-nav" id="mobile-menu" aria-label="モバイルナビゲーション" hidden>
-      <a href="#price">料金</a><a href="#order">ご依頼の流れ</a><a href="#data">音源の送り方</a><a href="#faq">よくある質問</a>
+      <a href="#price">Price</a><a href="#order">Order</a><a href="#data">Data Guide</a><a href="#faq">FAQ</a>
       <a href="https://x.com/danstudio_wav" target="_blank" rel="noopener noreferrer">X / @danstudio_wav ↗</a>
     </nav>
   </header>
@@ -85,17 +73,17 @@ a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}img{disp
   <main id="main">
     <section class="hero shell" aria-labelledby="hero-title">
       <div class="hero-overline">
-        <span class="micro-label">VOCAL MIX STUDIO</span>
+        <span class="micro-label">INDEPENDENT MIX STUDIO</span>
         <span class="status"><span class="status-dot"></span>受付準備中</span>
       </div>
       <div class="hero-intro">
         <div>
           <h1 id="hero-title">dan<span>.</span></h1>
-          <p class="hero-subtitle">歌ってみたMIX・ボーカル編集</p>
+          <p class="hero-subtitle">Vocal Mixing &amp; Editing</p>
         </div>
         <div class="hero-aside">
-          <p>歌い手 / VTuber・Vsinger</p>
-          <p>ピッチ・タイミング補正</p>
+          <p>歌ってみた / Vsinger</p>
+          <p>Mix ・ Vocal Edit</p>
         </div>
       </div>
       <div class="hero-wave">
@@ -103,62 +91,62 @@ a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}img{disp
         <canvas id="hero-wave-canvas" aria-hidden="true"></canvas>
       </div>
       <div class="hero-footnote">
-        <span>歌声のMIX・編集</span>
-        <a href="#price">料金を見る <span aria-hidden="true">↓</span></a>
+        <span>Sound, in its best form.</span>
+        <a href="#price">VIEW DETAILS <span aria-hidden="true">↓</span></a>
       </div>
     </section>
 
     <section id="price" class="section shell" aria-labelledby="price-title">
       <div class="section-heading">
-        <div><span class="section-index">01 / 料金</span><h2 id="price-title">料金<span class="period">.</span></h2></div>
+        <div><span class="section-index">01 / SERVICES</span><h2 id="price-title">Price<span class="period">.</span></h2></div>
         <p class="section-note">1名・歌ってみたMIX<br>価格は受付開始時に確定します。</p>
       </div>
       <div class="price-table" aria-label="料金一覧">
-        <div class="price-row"><div><h3>ショートMIX</h3><p>サビのみ / 60秒以内</p></div><span class="price">¥2,000</span></div>
-        <div class="price-row"><div><h3>ワンコーラスMIX</h3><p>ワンコーラス</p></div><span class="price">¥3,000</span></div>
-        <div class="price-row"><div><h3>フルコーラスMIX</h3><p>フルコーラス</p></div><span class="price">¥4,000</span></div>
+        <div class="price-row"><div><h3>Short Mix</h3><p>サビのみ / 60秒以内</p></div><span class="price">¥2,000</span></div>
+        <div class="price-row"><div><h3>One Chorus</h3><p>ワンコーラス</p></div><span class="price">¥3,000</span></div>
+        <div class="price-row"><div><h3>Full Chorus</h3><p>フルコーラス</p></div><span class="price">¥4,000</span></div>
       </div>
       <div class="options-grid">
-        <div class="options-title"><h3>追加オプション</h3><span>追加料金</span></div>
+        <div class="options-title"><h3>Options</h3><span>追加料金</span></div>
         <dl class="options-list">
-          <div><dt>ハモリ生成 <small>簡易1パート</small></dt><dd>+¥1,500</dd></div>
-          <div><dt>歌唱者の追加 <small>2人目から1名ごと</small></dt><dd>+¥2,500</dd></div>
-          <div><dt>追加修正 <small>3回目以降・1回ごと</small></dt><dd>+¥1,000</dd></div>
-          <div><dt>大幅な編集 <small>複雑な補正・追加トラック</small></dt><dd>お見積もり</dd></div>
+          <div><dt>Harmony Creation <small>簡易1パート</small></dt><dd>+¥1,500</dd></div>
+          <div><dt>Additional Vocalist <small>2人目から1名ごと</small></dt><dd>+¥2,500</dd></div>
+          <div><dt>Additional Revision <small>3回目以降・1回ごと</small></dt><dd>+¥1,000</dd></div>
+          <div><dt>Complex Editing <small>大幅な補正・追加トラック</small></dt><dd>お見積もり</dd></div>
         </dl>
       </div>
       <div class="service-specs" aria-label="基本条件">
-        <div><span>納期</span><strong>7〜14日</strong><small>素材受領・お支払い後の目安</small></div>
-        <div><span>無料修正</span><strong>2回まで</strong><small>初稿提出から7日以内</small></div>
-        <div><span>納品形式</span><strong>WAV / MP3</strong><small>完成音源で納品</small></div>
+        <div><span>DELIVERY</span><strong>7–14 days</strong><small>素材受領・お支払い後の目安</small></div>
+        <div><span>REVISIONS</span><strong>2 rounds</strong><small>初稿提出から7日以内</small></div>
+        <div><span>FORMAT</span><strong>WAV / MP3</strong><small>完成音源で納品</small></div>
       </div>
       <p class="fineprint">基本料金には、メインボーカル1パートの軽度なピッチ・タイミング補正、音質・音量調整、空間処理、簡易マスタリングを含みます。素材の状態や作業内容によって追加料金をご案内する場合があります。</p>
     </section>
 
     <section id="order" class="section shell" aria-labelledby="order-title">
-      <div class="section-heading"><div><span class="section-index">02 / ご依頼</span><h2 id="order-title">ご依頼の流れ<span class="period">.</span></h2></div></div>
+      <div class="section-heading"><div><span class="section-index">02 / PROCESS</span><h2 id="order-title">Order<span class="period">.</span></h2></div></div>
       <div class="steps">
-        <div class="step"><span>01</span><h3>ご相談</h3><p>XのDMからご相談ください。</p></div>
-        <div class="step"><span>02</span><h3>お見積もり</h3><p>音源を確認後、料金と納期をご案内。合意後にお支払い。</p></div>
-        <div class="step"><span>03</span><h3>MIX制作</h3><p>MIX制作後、確認用の初稿をお送りします。</p></div>
-        <div class="step"><span>04</span><h3>納品</h3><p>修正・確認後、完成データを納品します。</p></div>
+        <div class="step"><span>01</span><h3>Contact</h3><p>XのDMからご相談ください。</p></div>
+        <div class="step"><span>02</span><h3>Estimate</h3><p>音源を確認後、料金と納期をご案内。合意後にお支払い。</p></div>
+        <div class="step"><span>03</span><h3>Mixing</h3><p>MIX制作後、確認用の初稿をお送りします。</p></div>
+        <div class="step"><span>04</span><h3>Delivery</h3><p>修正・確認後、完成データを納品します。</p></div>
       </div>
     </section>
 
     <section id="data" class="section shell" aria-labelledby="data-title">
-      <div class="section-heading"><div><span class="section-index">03 / 音源提出</span><h2 id="data-title">音源の送り方<span class="period">.</span></h2></div><p class="section-note">音源の送り方</p></div>
+      <div class="section-heading"><div><span class="section-index">03 / FILE SUBMISSION</span><h2 id="data-title">Data Guide<span class="period">.</span></h2></div><p class="section-note">音源の送り方</p></div>
       <div class="guide-layout">
         <div class="guide-main">
-          <h3>必要なデータ</h3>
+          <h3>Required Files</h3>
           <ul class="file-requirements">
-            <li><span>01</span><div><strong>カラオケ音源</strong><small>カラオケ音源 / inst.wav</small></div></li>
-            <li><span>02</span><div><strong>メインボーカル</strong><small>無加工の歌声 / main.wav</small></div></li>
-            <li><span>03</span><div><strong>歌詞・曲情報</strong><small>歌詞、曲名、参考音源URL</small></div></li>
+            <li><span>01</span><div><strong>Instrumental</strong><small>カラオケ音源 / inst.wav</small></div></li>
+            <li><span>02</span><div><strong>Main Vocal</strong><small>無加工の歌声 / main.wav</small></div></li>
+            <li><span>03</span><div><strong>Lyrics &amp; Info</strong><small>歌詞、曲名、参考音源URL</small></div></li>
           </ul>
           <p class="guide-helper">ハモリ・ダブルがある場合は、それぞれ別ファイルで追加してください。</p>
         </div>
         <div class="folder-card">
-          <div class="folder-card-top"><span>フォルダ見本</span><span>ZIP</span></div>
+          <div class="folder-card-top"><span>FOLDER EXAMPLE</span><span>ZIP</span></div>
           <pre class="folder-tree"><span class="tree-root">曲名_お名前.zip</span>
 ├ 01_Instrumental/
 │   └ inst.wav
@@ -188,13 +176,13 @@ a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}img{disp
     </section>
 
     <section id="revisions" class="section shell revisions-section" aria-labelledby="revisions-title">
-      <div class="section-heading"><div><span class="section-index">04 / 修正</span><h2 id="revisions-title">修正について<span class="period">.</span></h2></div></div>
-      <div class="revision-highlight"><div><span>無料修正回数</span><strong>02</strong><small>回まで</small></div><p>3回目以降は <strong>+¥1,000 / 回</strong>。<br>修正希望は初稿提出から7日以内に、できるだけまとめてお知らせください。</p></div>
+      <div class="section-heading"><div><span class="section-index">04 / POLICY</span><h2 id="revisions-title">Revisions<span class="period">.</span></h2></div></div>
+      <div class="revision-highlight"><div><span>FREE REVISIONS</span><strong>02</strong><small>回まで</small></div><p>3回目以降は <strong>+¥1,000 / 回</strong>。<br>修正希望は初稿提出から7日以内に、できるだけまとめてお知らせください。</p></div>
       <p class="fineprint">当方の作業ミスは回数に含めず無料で修正します。新しい音源への差し替え、大幅な歌唱変更、追加録音による再編集は別途お見積もりとなります。</p>
     </section>
 
     <section id="faq" class="section shell" aria-labelledby="faq-title">
-      <div class="section-heading"><div><span class="section-index">05 / Q&A</span><h2 id="faq-title">よくある質問<span class="period">.</span></h2></div></div>
+      <div class="section-heading"><div><span class="section-index">05 / QUESTIONS</span><h2 id="faq-title">FAQ<span class="period">.</span></h2></div></div>
       <div class="detail-accordions">
         <details><summary>ピッチ補正は料金に含まれますか？ <span aria-hidden="true">+</span></summary><div class="accordion-content"><p>軽度なピッチ・タイミング補正は基本料金に含まれます。大幅な補正は音源確認後にお見積もりします。</p></div></details>
         <details><summary>録音データが1つしかなくても大丈夫ですか？ <span aria-hidden="true">+</span></summary><div class="accordion-content"><p>メインボーカル1本と伴奏音源があればご相談可能です。ハモリ・ダブルは必須ではありません。</p></div></details>
@@ -205,7 +193,7 @@ a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}img{disp
 
     <section id="contact" class="contact-section" aria-labelledby="contact-title">
       <div class="shell contact-inner">
-        <div><span class="section-index">06 / お問い合わせ</span><h2 id="contact-title">ご相談<span>.</span></h2><p>MIXのご相談はXのDMへ。</p><span class="contact-status">現在は受付準備中です。</span></div>
+        <div><span class="section-index">06 / CONTACT</span><h2 id="contact-title">Contact<span>.</span></h2><p>MIXのご相談はXのDMへ。</p><span class="contact-status">現在は受付準備中です。</span></div>
         <div class="contact-actions">
           <a class="contact-link" href="https://x.com/danstudio_wav" target="_blank" rel="noopener noreferrer">@danstudio_wav <span aria-hidden="true">↗</span></a>
           <button class="copy-button" id="copy-template" type="button">依頼テンプレートをコピー <span aria-hidden="true">↗</span></button>
@@ -216,7 +204,7 @@ a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}img{disp
   </main>
   <footer class="footer shell">
     <a class="footer-logo" href="#top">dan.</a>
-    <div class="footer-links"><a href="terms.html">利用規約</a><a href="privacy.html">プライバシー</a><a href="legal.html">特商法表記</a></div>
+    <div class="footer-links"><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="legal.html">Legal</a></div>
     <span>© dan.</span>
   </footer>
 <script>
