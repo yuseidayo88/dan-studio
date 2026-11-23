@@ -71,7 +71,7 @@ input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1p
     </fieldset>
     <fieldset><legend><span class="n">04</span>ご確認</legend>
       <label class="check"><input type="checkbox" id="acceptTerms" required><span><a href="/terms.html" target="_blank"><u>利用規約</u></a>・<a href="/privacy.html" target="_blank"><u>個人情報の取扱い</u></a>に同意します。*</span></label>
-      <p class="hint">お申し込み内容と金額を確認後、Stripeの安全な決済ページに進みます。制作開始前のキャンセルは全額返金です。</p>
+      <p class="hint">お申し込み内容・合計金額をご確認のうえ、Stripeの決済ページに進みます。決済後に音源を確認し、詳細をご連絡します。制作開始前のキャンセルは全額返金です。<a href="/legal.html" target="_blank" rel="noopener noreferrer"><u>特定商取引法に基づく表示</u></a>もご確認ください。</p>
     </fieldset>
   </form>
   <aside class="review" aria-label="お支払い内容の確認">
@@ -84,7 +84,7 @@ input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1p
     <div id="formError" class="error" role="alert" aria-live="polite"></div>
     <p class="after">PayPay・ギフトカードでのお支払いをご希望の場合や、複雑な編集は事前にご相談ください。</p>
     <a class="alternate" href="https://x.com/danstudio_wav" target="_blank" rel="noopener noreferrer">Xで相談する ↗</a>
-    <div class="notes">お支払い後、制作内容を確認してご連絡します。現時点では受付準備中のため、カードへの請求は発生しません。</div>
+    <div class="notes" id="payment-note">お支払い後、制作内容を確認してご連絡します。現時点では受付準備中のため、カードへの請求は発生しません。</div>
   </aside>
   </div>
 </main>
@@ -124,7 +124,10 @@ input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1p
     calc();
   });
   if(new URLSearchParams(location.search).get('cancelled')==='1')error.textContent='決済はキャンセルされました。カードへの請求は発生していません。';
-  fetch('/api/checkout-config',{cache:'no-store'}).then(r=>r.json()).then(r=>{available=r.available===true;calc();}).catch(()=>{available=false;calc();});
+  fetch('/api/checkout-config',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(r=>{
+    available=r?.available===true;calc();
+    if(available)$('payment-note').textContent='お支払い後にご依頼内容を確認し、制作スケジュールをご連絡します。';
+  }).catch(()=>{available=false;calc();});
   $('request-form').addEventListener('submit',async e=>{
     e.preventDefault();
     if(!available||busy)return;
