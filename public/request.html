@@ -20,7 +20,7 @@ input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1p
 .check{display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.8;margin:9px 0;cursor:pointer}.check input{accent-color:#111;margin-top:5px}.check strong{font-size:13px}.muted{color:#777}.review{position:sticky;top:25px;border-top:1px solid #111;padding-top:20px}.review h2{font-size:27px;letter-spacing:-.045em;font-weight:550;margin:0 0 19px}.item{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:12px}.item span:last-child{white-space:nowrap;font-variant-numeric:tabular-nums}.total{display:flex;justify-content:space-between;align-items:end;padding:24px 0}.total span:first-child{font-size:12px;color:#777}.total strong{font-size:32px;font-weight:600;letter-spacing:-.05em;line-height:1}.submit{background:#171717;color:#fff;width:100%;min-height:54px;padding:14px 12px;border:1px solid #171717;font:600 13px Inter,"Noto Sans JP",sans-serif;cursor:pointer}.submit:hover:not(:disabled){background:#333}.submit:disabled{background:#777;border-color:#777;cursor:not-allowed}.ready-status{font-size:11px;color:#777;line-height:1.8;margin-top:11px}.error{font-size:12px;color:#9a2020;margin-top:14px;min-height:18px}.after{font-size:11px;color:#777;margin:18px 0;line-height:1.9}.alternate{display:inline-block;font-size:12px;border-bottom:1px solid #555;padding:4px 0}.notes{border-top:1px solid var(--border);margin-top:26px;padding-top:18px;font-size:11px;line-height:1.9;color:#777}footer{padding:33px 0 44px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:11px;color:#777}
 @media(max-width:850px){.layout{grid-template-columns:1fr;gap:20px}.review{position:static;border-top:1px solid #111;max-width:none}.shell{width:min(100% - 36px,1080px)}main{padding-top:45px}.layout{margin-top:42px}}
 @media(max-width:430px){.heading h1{font-size:70px}.form-grid{grid-template-columns:1fr}.plan-body{padding:11px 8px;min-height:102px}.plan input:checked+.plan-body{padding:10px 7px}.plan-title{font-size:11px}.plan-price{font-size:17px}.nav a:not(.logo){font-size:11px}.heading p{font-size:12px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+[hidden]{display:none!important}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
@@ -40,6 +40,8 @@ input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1p
     <fieldset><legend><span class="n">02</span>オプション</legend>
       <div class="form-grid">
         <div class="field wide"><label class="check"><input id="harmony" type="checkbox"><span><strong>ハモリ生成</strong>　<span class="muted">＋¥1,500／簡易1パート</span></span></label></div>
+        <div class="field wide"><label class="check"><input id="videoSync" type="checkbox"><span><strong>動画合わせ</strong>　<span class="muted">＋¥500／完成済み動画への音声同期・MP4納品</span></span></label></div>
+        <div class="field wide" id="videoField" hidden><label class="field-label" for="videoUrl">完成済み動画の共有URL *</label><input id="videoUrl" type="url" inputmode="url" maxlength="500" placeholder="https://..."><p class="hint">動画素材をギガファイル便・Google Driveなどで共有してください。動画のカット編集・テロップ・MV制作は含みません。</p></div>
         <div class="field"><label class="field-label" for="additionalSingers">追加の歌唱者</label>
           <select id="additionalSingers"><option value="0">なし（1名）</option><option value="1">＋1名（計2名）</option><option value="2">＋2名（計3名）</option><option value="3">＋3名（計4名）</option><option value="4">＋4名（計5名）</option></select>
           <p class="hint">2人目から＋¥2,500／名</p>
@@ -102,6 +104,7 @@ input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1p
     const add=(label,amount)=>{const row=document.createElement('div');row.className='item';const name=document.createElement('span');name.textContent=label;const value=document.createElement('span');value.textContent=fmt(amount);row.append(name,value);$('summaryOptions').append(row);total+=amount;};
     $('summaryOptions').replaceChildren();
     if(harmony)add('ハモリ生成',1500);
+    if($('videoSync').checked)add('動画合わせ',500);
     if(singers)add('歌唱者の追加 × '+singers,singers*2500);
     if(tracks>3)add('追加トラック × '+(tracks-3),(tracks-3)*500);
     $('totalAmount').textContent=fmt(total);
@@ -113,6 +116,13 @@ input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1p
   };
   document.querySelectorAll('input[name="plan"]').forEach(x=>x.addEventListener('change',calc));
   ['harmony','additionalSingers','vocalTracks','needsQuote'].forEach(id=>$(id).addEventListener('change',calc));
+  $('videoSync').addEventListener('change',()=>{
+    const selected=$('videoSync').checked;
+    $('videoField').hidden=!selected;
+    $('videoUrl').required=selected;
+    if(!selected)$('videoUrl').value='';
+    calc();
+  });
   if(new URLSearchParams(location.search).get('cancelled')==='1')error.textContent='決済はキャンセルされました。カードへの請求は発生していません。';
   fetch('/api/checkout-config',{cache:'no-store'}).then(r=>r.json()).then(r=>{available=r.available===true;calc();}).catch(()=>{available=false;calc();});
   $('request-form').addEventListener('submit',async e=>{
@@ -121,7 +131,7 @@ input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1p
     error.textContent='';
     const form=e.currentTarget;if(!form.reportValidity())return;
     const p={
-      plan:selected(),harmony:$('harmony').checked,additionalSingers:Number($('additionalSingers').value),
+      plan:selected(),harmony:$('harmony').checked,videoSync:$('videoSync').checked,videoUrl:$('videoUrl').value,additionalSingers:Number($('additionalSingers').value),
       vocalTracks:Number($('vocalTracks').value),needsQuote:$('needsQuote').checked,
       name:$('name').value,email:$('email').value,contactMethod:$('contactMethod').value,contactHandle:$('contactHandle').value,
       songTitle:$('songTitle').value,originalUrl:$('originalUrl').value,audioUrl:$('audioUrl').value,
