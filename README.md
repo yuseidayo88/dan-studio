@@ -27,3 +27,11 @@ After the connection, pushing to `main` triggers a deployment. The site is avail
 - Add a restricted Stripe API key (STRIPE_API_KEY) and webhook secret (STRIPE_WEBHOOK_SECRET) as Cloudflare Worker secrets only; never put them in GitHub.
 - After sandbox verification, set plaintext Worker variable PAYMENTS_ENABLED=true. Until then the form is visible but payments are disabled and /api/checkout returns 503.
 - Test webhook signature verification and database paid status before enabling live charges. Monitor paid requests in D1 or build a protected admin notification workflow.
+
+## Cloudflare Pages mirror
+
+- Cloudflare Pages project: `danstudio` (GitHub main, output `public`).
+- Assigned Pages URL: `https://danstudio-6zy.pages.dev/` (`danstudio.pages.dev` was not allocated by Cloudflare).
+- `public/_worker.js` mirrors `src/index.js` for the Pages advanced-mode Worker; do not put live API credentials in either file.
+- Original Worker stays live at the existing workers.dev URL until Pages is verified.
+- Stripe stays disabled until separate Pages environment secrets and the matching webhook are configured and tested.
