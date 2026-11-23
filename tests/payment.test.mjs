@@ -153,3 +153,31 @@ test('asynchronous settlement does not mark unpaid sessions as paid',async()=>{
     assert.equal(order.status,'paid','A paid order must never be downgraded by late failures');
   } finally {globalThis.fetch=savedFetch;}
 });
+
+test('checkout accepts only name and email before uploading audio later',async()=>{
+  const db=database(),env=envFor(db);
+  const savedFetch=globalThis.fetch;
+  let stripeBody;
+  globalThis.fetch=async (_url,opts)=>{
+    stripeBody=new URLSearchParams(opts.body);
+    return new Response(JSON.stringify({id:'cs_test_minimal_abcdefghijk',url:'https://checkout.stripe.com/c/pay/minimal-test'}),{status:200,headers:{'content-type':'application/json'}});
+  };
+  try {
+    const minimal={
+      plan:'short',vocalTracks:1,additionalSingers:0,harmony:false,videoSync:false,
+      name:'はじめての歌い手',email:'min@example.test',contactMethod:'email',acceptTerms:true
+    };
+    const r=await worker.fetch(orderRequest(minimal),env);
+    assert.equal(r.status,200,'Audio and song should not be required before payment');
+    const data=await r.json();
+    assert.ok(data.checkoutUrl.startsWith('https://checkout.stripe.com/'));
+    assert.equal(db.orders.size,1);
+    const [order]=db.orders.values();
+    assert.equal(order.amount_jpy,2000);
+    assert.equal(stripeBody.get('customer_email'),'min@example.test');
+    assert.equal(stripeBody.get('metadata[contact_handle]'),'min@example.test');
+    assert.equal(stripeBody.get('metadata[song_title]'),null);
+    const invalid=await worker.fetch(orderRequest({...minimal,originalUrl:'not-an-https-url'}),env);
+    assert.equal(invalid.status,400,'If URL is entered, it must be valid');
+  } finally {globalThis.fetch=savedFetch;}
+});
