@@ -85,3 +85,9 @@ This query contains customer information; access it only from the private Cloudf
 - The test session is intentionally unpaid and will expire automatically in Stripe. It is tagged `DAN_INTERNAL_CHECKOUT_SMOKE_2026_11_23` and must not be fulfilled as a customer request.
 - Stripe PayPay is unavailable in the connected account and is not promised to customers.
 - Continue to review credential rotation (especially values previously visible in an uploaded private screenshot), identity disclosure on request, and business tax obligations. Do not put credentials in version control.
+
+### Low-friction purchase flow
+
+- `public/request.html` requires only an activity name and email before Checkout. Song title, original URL, recording link, reference URL, requested deadline, and social ID are optional in an initially collapsed section.
+- Customers may pay before recording files are ready. The operator must **manually contact the buyer at their email address** and request the missing materials. This is **not** an automated submission or notification system. Production work and its estimated lead time start only after the necessary materials are provided and checked.
+- `src/index.js` and `public/_worker.js` permit omitted song and audio URLs, but validate any supplied URLs. Missing social handle falls back to email; all mandatory D1 fields stay non-null.
