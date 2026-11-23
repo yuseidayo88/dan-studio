@@ -3,7 +3,7 @@ const LABELS = Object.freeze({ short: 'ショートMIX', one: 'ワンコーラ�
 const MAX_BODY = 12000;
 const json = (value, status=200) => new Response(JSON.stringify(value), {status, headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff'}});
 const normalize = (x, max) => typeof x === 'string' ? x.trim().slice(0,max) : '';
-const httpsURL = (s) => { try { const u=new URL(s); return u.protocol==='https:' && Boolean(u.hostname) && !/^(localhost|127\\.|10\\.|192\\.168\\.|172\\.(1[6-9]|2\\d|3[01])\\.)/.test(u.hostname); } catch { return false; } };
+const httpsURL = (s) => { try { const u=new URL(s); return u.protocol==='https:' && Boolean(u.hostname) && !/^(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(u.hostname); } catch { return false; } };
 const enabled = (env) => env.PAYMENTS_ENABLED==='true' && !!env.STRIPE_API_KEY && !!env.STRIPE_WEBHOOK_SECRET && !!env.DB;
 const parseOrder = (p) => {
   if(!p || typeof p !== 'object' || Array.isArray(p)) throw Error('入力内容を確認してください。');
@@ -25,10 +25,10 @@ const parseOrder = (p) => {
   const requestedDate = normalize(p.requestedDate,10);
   const notes = normalize(p.notes,1200);
   if(!name||!songTitle||!contactHandle) throw Error('必須項目を入力してください。');
-  if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) throw Error('メールアドレスを確認してください。');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw Error('メールアドレスを確認してください。');
   if(!['x','discord','email'].includes(contactMethod)) throw Error('連絡方法を選択してください。');
   if(!httpsURL(originalUrl)||!httpsURL(audioUrl)||(referenceUrl&&!httpsURL(referenceUrl))) throw Error('音源URLはhttps://から始まる有効なリンクにしてください。');
-  if(requestedDate&&!/^\\d{4}-\\d{2}-\\d{2}$/.test(requestedDate)) throw Error('希望納期を確認してください。');
+  if(requestedDate&&!/^\d{4}-\d{2}-\d{2}$/.test(requestedDate)) throw Error('希望納期を確認してください。');
   if(p.needsQuote===true) throw Error('複雑な編集は、決済前にXのDMでお見積もりをご相談ください。');
   if(p.acceptTerms!==true) throw Error('利用規約への同意が必要です。');
   if(normalize(p.website,100)) throw Error('受付できませんでした。');
@@ -97,7 +97,7 @@ async function verifyStripeSignature(payload,header,secret){
   const fields=header.split(',').map(s=>s.trim());
   const stamp=fields.find(x=>x.startsWith('t='))?.slice(2);
   const signatures=fields.filter(x=>x.startsWith('v1=')).map(x=>x.slice(3));
-  if(!stamp||!/^\\d+$/.test(stamp)||Math.abs(Date.now()/1000-Number(stamp))>300) return false;
+  if(!stamp||!/^\d+$/.test(stamp)||Math.abs(Date.now()/1000-Number(stamp))>300) return false;
   const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(secret),{name:'HMAC',hash:'SHA-256'},false,['verify']);
   const signed=new TextEncoder().encode(stamp+'.'+payload);
   for(const signature of signatures) {
