@@ -18,3 +18,12 @@ After the connection, pushing to `main` triggers a deployment. The site is avail
 
 **Please review and complete legal/policy statements and payment/cancellation terms before accepting paid orders.** The website currently says 受付準備中.
 
+
+## Stripe Checkout setup (not live yet)
+
+- The public form lives at /request.html. Front-end pricing is for display only; src/index.js validates and recalculates prices on the server.
+- D1 production database: dan-studio-orders. Tables: orders, webhook_events and checkout_limits.
+- Before taking real payments: Verify Stripe eligibility, policies and legal disclosures. Configure Stripe webhook: https://dan-studio.yuseidayo88.workers.dev/api/stripe-webhook with checkout.session.completed, checkout.session.async_payment_succeeded, checkout.session.async_payment_failed, checkout.session.expired events.
+- Add a restricted Stripe API key (STRIPE_API_KEY) and webhook secret (STRIPE_WEBHOOK_SECRET) as Cloudflare Worker secrets only; never put them in GitHub.
+- After sandbox verification, set plaintext Worker variable PAYMENTS_ENABLED=true. Until then the form is visible but payments are disabled and /api/checkout returns 503.
+- Test webhook signature verification and database paid status before enabling live charges. Monitor paid requests in D1 or build a protected admin notification workflow.
