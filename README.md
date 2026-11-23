@@ -89,5 +89,7 @@ This query contains customer information; access it only from the private Cloudf
 ### Low-friction purchase flow
 
 - `public/request.html` requires only an activity name and email before Checkout. Song title, original URL, recording link, reference URL, requested deadline, and social ID are optional in an initially collapsed section.
-- Customers may pay before recording files are ready. The operator must **manually contact the buyer at their email address** and request the missing materials. This is **not** an automated submission or notification system. Production work and its estimated lead time start only after the necessary materials are provided and checked.
+- Customers may pay before recording files are ready. The operator must **manually contact the buyer through their selected X, Discord, or email channel** and request the missing materials, using the Checkout email as fallback if X/Discord DMs are unavailable. This is **not** an automated submission or notification system. Production work and its estimated lead time start only after the necessary materials are provided and checked.
 - `src/index.js` and `public/_worker.js` permit omitted song and audio URLs, but validate any supplied URLs. Missing social handle falls back to email; all mandatory D1 fields stay non-null.
+
+- Contact method selection: email uses the already required Stripe receipt email (no additional ID); choosing X or Discord reveals a required ID field. The server independently checks the selected channel and its ID. The checkout email stays required for any contact channel.
