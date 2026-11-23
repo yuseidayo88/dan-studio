@@ -47,6 +47,7 @@ a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}img{disp
 .contact-title-note{display:block;color:#b9b9b9;font-size:12px;font-weight:500;letter-spacing:.04em;margin:-10px 0 17px}@media(max-width:620px){.contact-title-note{font-size:11px;margin:-8px 0 15px}}
 .price-coverage{margin-top:8px}.contact-account{font-size:12px;font-weight:500;letter-spacing:0;white-space:nowrap;color:#555}.contact-hint{font-size:11px!important;color:#aaa!important;line-height:1.65;margin:0!important}@media(max-width:620px){.contact-link{gap:10px}.contact-account{font-size:11px}}
 .contact-secondary{background:transparent;color:#eee;border:1px solid #616161;font-size:13px;padding:16px 20px}.contact-secondary .contact-account{color:#bbb}.contact-secondary:hover{background:#333}.contact-section .contact-actions{gap:12px}@media(max-width:620px){.contact-secondary{padding:16px 18px}}
+.monitor-banner{border-top:1px solid #d9d9d7;border-bottom:1px solid #d9d9d7;padding:25px 2px 23px;margin:4px 0 0;display:flex;align-items:center;justify-content:space-between;gap:28px}.monitor-eyebrow{font-size:10px;letter-spacing:.13em;font-weight:650;color:#7c7c7c}.monitor-banner h2{font-size:18px;font-weight:560;letter-spacing:-.025em;margin:6px 0 5px}.monitor-banner p{font-size:12px;line-height:1.9;margin:0;color:#777}.monitor-action{flex:none;font-size:12px;font-weight:650;border:1px solid #151515;padding:14px 19px;min-width:130px;text-align:center}.monitor-action:hover{background:#171717;color:white;text-decoration:none}.discord-copy{font-family:inherit;cursor:pointer;width:100%;text-align:left}.discord-copy:hover{background:#333}.contact-actions .contact-hint{line-height:1.65}@media(max-width:620px){.monitor-banner{display:block;padding:22px 0 18px}.monitor-banner h2{font-size:16px}.monitor-action{display:inline-block;margin-top:16px}.status{font-size:10px}}
 </style>
   
   <title>dan. — Vocal Mixing & Editing</title>
@@ -77,7 +78,7 @@ a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}img{disp
     <section class="hero shell" aria-labelledby="hero-title">
       <div class="hero-overline">
         <span class="micro-label">INDEPENDENT MIX STUDIO</span>
-        <span class="status"><span class="status-dot"></span>受付準備中</span>
+        <span class="status"><span class="status-dot"></span>無償MIXモニター 3件募集中</span>
       </div>
       <div class="hero-intro">
         <div>
@@ -96,6 +97,10 @@ a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}img{disp
       <div class="hero-footnote">
         <span>Sound, in its best form.</span>
         <a href="#price">VIEW DETAILS <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="monitor-banner" aria-label="無償MIXモニターの募集">
+        <div><span class="monitor-eyebrow">FREE MIX MONITOR / 03</span><h2>無償MIXモニターを3件募集しています。</h2><p>活動開始に伴い、実績制作のため無料でMIXをお受けします。ご相談はXのDM、またはDiscordから。</p></div>
+        <a class="monitor-action" href="https://x.com/danstudio_wav" target="_blank" rel="noopener noreferrer">Xで相談する <span aria-hidden="true">↗</span></a>
       </div>
     </section>
 
@@ -217,10 +222,13 @@ a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}img{disp
 
     <section id="contact" class="contact-section" aria-labelledby="contact-title">
       <div class="shell contact-inner">
-        <div><span class="section-index">06 / CONTACT</span><h2 id="contact-title">Contact<span>.</span></h2><span class="contact-title-note">ご相談・お問い合わせ</span><p>フォーム・XのDMからご相談いただけます。</p><span class="contact-status">現在は受付準備中です。</span></div>
+        <div><span class="section-index">06 / CONTACT</span><h2 id="contact-title">Contact<span>.</span></h2><span class="contact-title-note">ご相談・お問い合わせ</span><p>X・Discordからお気軽にご相談ください。</p><span class="contact-status">無償MIXモニター3件募集中 / 有料受付は準備中</span></div>
         <div class="contact-actions">
-          <a class="contact-link" href="/request.html">MIX依頼フォーム <span aria-hidden="true">↗</span></a>
+          <a class="contact-link" href="/request.html">有料MIX依頼フォーム <span class="contact-account">準備中 ↗</span></a>
           <a class="contact-link contact-secondary" href="https://x.com/danstudio_wav" target="_blank" rel="noopener noreferrer">Xで相談する <span class="contact-account">@danstudio_wav ↗</span></a>
+          <button class="contact-link contact-secondary discord-copy" id="copy-discord" type="button" aria-label="Discordのユーザー名 danstudio.wav をコピー">Discordで相談する <span class="contact-account">danstudio.wav <span aria-hidden="true">⧉</span></span></button>
+          <p class="contact-hint">Discordはユーザー名をコピーして、フレンド追加からご連絡ください。</p>
+          <p class="copy-feedback" id="discord-feedback" role="status" aria-live="polite"></p>
           <button class="copy-button" id="copy-template" type="button">依頼テンプレートをコピー <span aria-hidden="true">↗</span></button>
           <p class="contact-hint">テンプレートをコピーして、XのDMに貼り付けてください。</p>
           <p class="copy-feedback" id="copy-feedback" role="status" aria-live="polite"></p>
@@ -280,6 +288,29 @@ a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}img{disp
       feedback.textContent = 'テンプレートをコピーしました。';
     } catch (_) {
       feedback.textContent = 'コピーできませんでした。XのDMからご相談ください。';
+    }
+  });
+
+  const discordButton = document.getElementById('copy-discord');
+  const discordFeedback = document.getElementById('discord-feedback');
+  discordButton?.addEventListener('click', async () => {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText('danstudio.wav');
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = 'danstudio.wav';
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        const copied = document.execCommand('copy');
+        ta.remove();
+        if (!copied) throw new Error('copy unavailable');
+      }
+      discordFeedback.textContent = 'Discordのユーザー名をコピーしました。';
+    } catch (_) {
+      discordFeedback.textContent = 'コピーできませんでした。Discordで「danstudio.wav」を検索してください。';
     }
   });
 
