@@ -1,0 +1,2 @@
+# This file is the Pages server-side Worker, not a public static asset.
+_worker.js
