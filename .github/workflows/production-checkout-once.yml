@@ -1,0 +1,19 @@
+name: Verify production Stripe checkout without making a payment
+on:
+  push:
+    paths:
+      - ".github/workflows/production-checkout-once.yml"
+  workflow_dispatch:
+jobs:
+  live-unpaid-checkout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Create one unpaid test Checkout Session via Pages API
+        run: node tests/production-checkout-smoke.mjs
