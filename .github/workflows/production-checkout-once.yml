@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - ".github/workflows/production-checkout-once.yml"
+      - "tests/production-checkout-smoke.mjs"
   workflow_dispatch:
 jobs:
   live-unpaid-checkout:
