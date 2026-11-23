@@ -36,3 +36,43 @@ After the connection, pushing to `main` triggers a deployment. The site is avail
 - `public/_worker.js` mirrors `src/index.js` for Pages advanced-mode API. D1 is bound as `DB` to the Pages project.
 - The original `dan-studio` Cloudflare Worker also remains live. No request traffic is redirected automatically.
 - Stripe checkout remains intentionally disabled until Pages secrets and a verified production webhook are configured, tested, and legal disclosures are ready. The old webhook destination for the original Worker must not be reused blindly for the Pages site.
+
+## Payment integration audit (2026-11-23)
+
+Primary production environment: Cloudflare Pages project `danstudio-wav` (not the legacy Worker `dan-studio`).
+
+- Pages settings: `STRIPE_API_KEY` and `STRIPE_WEBHOOK_SECRET` are encrypted production secrets, `DB` is the `dan-studio-orders` D1 binding, and `PAYMENTS_ENABLED=false` until launch.
+- Stripe webhook endpoint for the primary domain: `https://danstudio-wav.pages.dev/api/stripe-webhook`. This destination is disabled while keys and legal disclosures are being finalized.
+- Order form: `public/request.html`. Pricing is recalculated on the server in matching `src/index.js` and `public/_worker.js`; does not trust client totals.
+- Success page: `public/complete.html` polls `GET /api/order-status?session_id=...`, which returns only an order status, not customer data. The authoritative paid state comes from verified Stripe webhooks.
+- Session expires in 60 minutes. Checkout creates an order in D1, creates a Stripe session, and stores its ID. Only verified webhooks set orders to `paid`.
+- Tests: `node --test tests/payment.test.mjs`. GitHub Actions workflow: `.github/workflows/payment-tests.yml`. A deployed site and a committed test file do **not** constitute proof of a completed real Stripe transaction.
+- Stripe Payment Method Configuration on the connected account showed `paypay.available=false` and `paypay.display_preference=off` at the time of review. PayPay cannot be promised until enabled and eligible.
+- Before turning on live checkout, confirm that any API key and signing secret shown in screenshots have been rotated, that the **new** webhook signing secret matches the **new** endpoint, and that the webhook is enabled.
+- The Stripe account statement descriptor was previously configured as `INWAVE`; confirm whether that branding is suitable for dan. before charging customers.
+- Review and complete legally required identity disclosures / an effective on-request disclosure process, tax/pricing display, and the terms before enabling production.
+- After those checks and a sandbox end-to-end test, explicitly change `PAYMENTS_ENABLED` to `true` in **Pages production** and redeploy. Do not enable it on the legacy Worker instead.
+- Avoid putting Stripe credentials in GitHub, commit history, customer-visible error messages, or Cloudflare plain-text variables.
+
+### Reviewing orders
+
+In Cloudflare dashboard, open D1 database `dan-studio-orders` and run:
+
+```sql
+SELECT created_at, status, amount_jpy, plan, customer_name,
+       customer_email, contact_handle, song_title, audio_url, video_url
+FROM orders
+ORDER BY created_at DESC
+LIMIT 30;
+```
+
+This query contains customer information; access it only from the private Cloudflare Dashboard. Status `paid` means a signature-verified Stripe webhook was processed. Do not begin work merely because the customer visited the return page.
+
+### Before production launch
+
+1. Rotate any previously exposed credentials and verify a fresh signing secret is installed as a Pages Secret.
+2. Test sandbox Checkout and `checkout.session.completed` plus async success / failure cases.
+3. Confirm the Stripe webhook destination is enabled and its deliveries are successful.
+4. Finalize tax-inclusive or tax-exclusive pricing and legal disclosure processes.
+5. Check the Stripe statement descriptor and available payment methods.
+6. Enable Pages production payments, redeploy, and monitor the first order in Stripe and D1.
