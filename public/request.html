@@ -54,10 +54,12 @@ input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1p
       </div>
     </fieldset>
     <fieldset><legend><span class="n">03</span>ご連絡先</legend>
-      <p class="quick-hint">お支払い前の入力は、これだけ。音源・曲名は後からでも大丈夫です。</p>
+      <p class="quick-hint">音源・曲名は後からでも大丈夫。連絡方法はお好きなものをお選びください。</p>
       <div class="form-grid">
         <div class="field"><label class="field-label" for="name">活動名・お名前 *</label><input id="name" maxlength="80" autocomplete="nickname" required placeholder="お名前・活動名"></div>
-        <div class="field"><label class="field-label" for="email">メールアドレス *</label><input id="email" type="email" maxlength="140" autocomplete="email" required placeholder="name@example.com"><p class="hint">決済後のご連絡に使用します。</p></div>
+        <div class="field"><label class="field-label" for="email">メールアドレス *</label><input id="email" type="email" maxlength="140" autocomplete="email" required placeholder="name@example.com"><p class="hint">決済の確認・領収メールに必要です。</p></div>
+        <div class="field wide"><label class="field-label" for="contactMethod">ご希望の連絡方法 *</label><select id="contactMethod" aria-controls="contactIdField"><option value="x">X（DM）</option><option value="discord">Discord</option><option value="email" selected>メールアドレス</option></select></div>
+        <div class="field wide" id="contactIdField" hidden><label class="field-label" for="contactHandle" id="contactIdLabel">XのID *</label><input id="contactHandle" maxlength="140" placeholder="@ユーザー名" autocomplete="off"><p class="hint">選択した連絡方法で制作についてご連絡します。</p></div>
       </div>
       <details class="optional-info">
         <summary>曲名・音源などを先に送る（任意） <span aria-hidden="true">＋</span></summary>
@@ -65,13 +67,11 @@ input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1p
           <div class="field wide"><label class="field-label" for="audioUrl">音源データの共有URL</label><input id="audioUrl" type="url" inputmode="url" placeholder="https://..."><p class="hint">ギガファイル便・Google Driveなど。決済後の提出でもOK。</p></div>
           <div class="field wide"><label class="field-label" for="songTitle">曲名</label><input id="songTitle" maxlength="160" placeholder="曲名 / アーティスト名"></div>
           <div class="field wide"><label class="field-label" for="originalUrl">原曲URL</label><input id="originalUrl" type="url" inputmode="url" placeholder="https://..."></div>
-          <div class="field wide"><label class="field-label" for="contactHandle">X・DiscordのID（任意）</label><input id="contactHandle" maxlength="140" placeholder="@ユーザー名 / Discord ID"></div>
           <div class="field wide"><label class="field-label" for="referenceUrl">参考音源URL</label><input id="referenceUrl" type="url" inputmode="url" placeholder="https://..."></div>
           <div class="field"><label class="field-label" for="requestedDate">希望納期</label><input id="requestedDate" type="date"></div>
           <div class="field wide"><label class="field-label" for="notes">ご希望・ご要望</label><textarea id="notes" maxlength="1200" placeholder="MIXの雰囲気やご希望など"></textarea></div>
         </div>
       </details>
-      <input type="hidden" id="contactMethod" value="email">
       <div style="position:absolute;left:-99999px" aria-hidden="true"><label for="website">サイト</label><input type="text" id="website" tabindex="-1" autocomplete="off"></div>
     </fieldset>
         <fieldset><legend><span class="n">04</span>ご確認</legend>
@@ -128,6 +128,23 @@ input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1p
     if(!selected)$('videoUrl').value='';
     calc();
   });
+  const updateContactMethod=()=>{
+    const method=$('contactMethod').value;
+    const needsId=method==='x'||method==='discord';
+    $('contactIdField').hidden=!needsId;
+    $('contactHandle').required=needsId;
+    if(method==='x'){
+      $('contactIdLabel').textContent='XのID *';
+      $('contactHandle').placeholder='@ユーザー名';
+    }else if(method==='discord'){
+      $('contactIdLabel').textContent='DiscordのID *';
+      $('contactHandle').placeholder='Discordユーザー名';
+    }else{
+      $('contactHandle').value='';
+    }
+  };
+  $('contactMethod').addEventListener('change',updateContactMethod);
+  updateContactMethod();
   if(new URLSearchParams(location.search).get('cancelled')==='1')error.textContent='決済はキャンセルされました。カードへの請求は発生していません。';
   fetch('/api/checkout-config',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(r=>{
     available=r?.available===true;calc();
@@ -141,7 +158,7 @@ input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1p
     const p={
       plan:selected(),harmony:$('harmony').checked,videoSync:$('videoSync').checked,videoUrl:$('videoUrl').value,additionalSingers:Number($('additionalSingers').value),
       vocalTracks:Number($('vocalTracks').value),needsQuote:$('needsQuote').checked,
-      name:$('name').value,email:$('email').value,contactMethod:'email',contactHandle:$('contactHandle').value||$('email').value,
+      name:$('name').value,email:$('email').value,contactMethod:$('contactMethod').value,contactHandle:$('contactMethod').value==='email'?$('email').value:$('contactHandle').value,
       songTitle:$('songTitle').value,originalUrl:$('originalUrl').value,audioUrl:$('audioUrl').value,
       referenceUrl:$('referenceUrl').value,requestedDate:$('requestedDate').value,notes:$('notes').value,
       website:$('website').value,acceptTerms:$('acceptTerms').checked
