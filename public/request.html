@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f9f9f7">
+<meta name="description" content="dan. MIX依頼フォーム。プランを選び、音源データを提出してお申し込みいただけます。">
+<title>Request. | dan.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f9f9f7;--ink:#171717;--muted:#787878;--border:#d8d8d5;--soft:#eeeeec}*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.7 Inter,"Noto Sans JP",sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}a:hover{text-decoration:underline}.shell{width:min(100% - 60px,1080px);margin:0 auto}
+header{border-bottom:1px solid #e4e4e1;padding:22px 0;background:var(--bg)}.nav{display:flex;align-items:center;justify-content:space-between;gap:20px}.logo{font-size:26px;font-weight:700;letter-spacing:-.09em}.nav a:not(.logo){font-size:12px;color:#555}
+main{padding-top:64px;padding-bottom:90px}.eyebrow{font-size:10px;font-weight:600;letter-spacing:.17em;color:#7b7b7b}.heading h1{font-size:clamp(65px,11vw,118px);letter-spacing:-.09em;font-weight:600;line-height:1;margin:15px 0}.heading p{margin:0;color:#6a6a6a;font-size:13px}.layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(255px,0.85fr);gap:56px;align-items:start;margin-top:65px}
+fieldset{border:0;padding:0;margin:0 0 50px;min-width:0}legend{padding:0 0 20px;width:100%;border-bottom:1px solid var(--ink);font-size:18px;font-weight:600;letter-spacing:-.02em;margin-bottom:22px}
+.n{display:inline-block;font-size:11px;color:#888;margin-right:14px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:19px 15px}.field{min-width:0}.wide{grid-column:1/-1}label.field-label{display:block;font-size:11px;font-weight:600;color:#535353;margin:0 0 8px;letter-spacing:.02em}
+input:not([type=checkbox]),select,textarea{width:100%;padding:13px 14px;border:1px solid #d6d6d3;border-radius:0;background:#fff;color:#111;font:13px/1.6 Inter,"Noto Sans JP",sans-serif;outline:none;min-height:47px}
+input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1px #151515}textarea{min-height:100px;resize:vertical}.hint{font-size:11px;color:#888;line-height:1.8;margin:6px 0 0}.plan-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.plan{cursor:pointer}.plan input{position:absolute;opacity:0;pointer-events:none}.plan-body{min-height:106px;background:#fff;border:1px solid var(--border);padding:16px 12px;display:flex;flex-direction:column;justify-content:space-between;gap:12px}.plan input:checked+.plan-body{border:2px solid #151515;padding:15px 11px}.plan input:focus-visible+.plan-body{outline:2px solid #000;outline-offset:2px}.plan-title{font-size:12px;font-weight:600}.plan-price{font-size:20px;font-weight:600;line-height:1}.plan-price small{font-size:10px;font-weight:400;color:#777}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.8;margin:9px 0;cursor:pointer}.check input{accent-color:#111;margin-top:5px}.check strong{font-size:13px}.muted{color:#777}.review{position:sticky;top:25px;border-top:1px solid #111;padding-top:20px}.review h2{font-size:27px;letter-spacing:-.045em;font-weight:550;margin:0 0 19px}.item{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:12px}.item span:last-child{white-space:nowrap;font-variant-numeric:tabular-nums}.total{display:flex;justify-content:space-between;align-items:end;padding:24px 0}.total span:first-child{font-size:12px;color:#777}.total strong{font-size:32px;font-weight:600;letter-spacing:-.05em;line-height:1}.submit{background:#171717;color:#fff;width:100%;min-height:54px;padding:14px 12px;border:1px solid #171717;font:600 13px Inter,"Noto Sans JP",sans-serif;cursor:pointer}.submit:hover:not(:disabled){background:#333}.submit:disabled{background:#777;border-color:#777;cursor:not-allowed}.ready-status{font-size:11px;color:#777;line-height:1.8;margin-top:11px}.error{font-size:12px;color:#9a2020;margin-top:14px;min-height:18px}.after{font-size:11px;color:#777;margin:18px 0;line-height:1.9}.alternate{display:inline-block;font-size:12px;border-bottom:1px solid #555;padding:4px 0}.notes{border-top:1px solid var(--border);margin-top:26px;padding-top:18px;font-size:11px;line-height:1.9;color:#777}footer{padding:33px 0 44px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:11px;color:#777}
+@media(max-width:850px){.layout{grid-template-columns:1fr;gap:20px}.review{position:static;border-top:1px solid #111;max-width:none}.shell{width:min(100% - 36px,1080px)}main{padding-top:45px}.layout{margin-top:42px}}
+@media(max-width:430px){.heading h1{font-size:70px}.form-grid{grid-template-columns:1fr}.plan-body{padding:11px 8px;min-height:102px}.plan input:checked+.plan-body{padding:10px 7px}.plan-title{font-size:11px}.plan-price{font-size:17px}.nav a:not(.logo){font-size:11px}.heading p{font-size:12px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header><div class="shell nav"><a class="logo" href="/">dan.</a><a href="/">サイトに戻る ↗</a></div></header>
+<main class="shell">
+  <div class="heading"><div class="eyebrow">VOCAL MIXING / REQUEST</div><h1>Request.</h1><p>歌ってみたMIXのお申し込み・お見積もり</p></div>
+  <div class="layout">
+  <form id="request-form" novalidate>
+    <fieldset><legend><span class="n">01</span>プランを選択</legend>
+      <div class="plan-options">
+        <label class="plan"><input type="radio" name="plan" value="short"><span class="plan-body"><span class="plan-title">ショートMIX</span><span class="plan-price">¥2,000 <small>60秒以内</small></span></span></label>
+        <label class="plan"><input type="radio" name="plan" value="one"><span class="plan-body"><span class="plan-title">ワンコーラス</span><span class="plan-price">¥3,000 <small>2分以内</small></span></span></label>
+        <label class="plan"><input type="radio" name="plan" value="full" checked><span class="plan-body"><span class="plan-title">フルコーラス</span><span class="plan-price">¥4,000 <small>5分以内</small></span></span></label>
+      </div>
+      <p class="hint">基本料金には歌唱者1名・カラオケ1本・ボーカル3本までのMIXと軽度の補正が含まれます。</p>
+    </fieldset>
+    <fieldset><legend><span class="n">02</span>オプション</legend>
+      <div class="form-grid">
+        <div class="field wide"><label class="check"><input id="harmony" type="checkbox"><span><strong>ハモリ生成</strong>　<span class="muted">＋¥1,500／簡易1パート</span></span></label></div>
+        <div class="field"><label class="field-label" for="additionalSingers">追加の歌唱者</label>
+          <select id="additionalSingers"><option value="0">なし（1名）</option><option value="1">＋1名（計2名）</option><option value="2">＋2名（計3名）</option><option value="3">＋3名（計4名）</option><option value="4">＋4名（計5名）</option></select>
+          <p class="hint">2人目から＋¥2,500／名</p>
+        </div>
+        <div class="field"><label class="field-label" for="vocalTracks">ボーカルの合計トラック数</label>
+          <select id="vocalTracks"><option value="1">1本</option><option value="2">2本</option><option value="3">3本（料金内）</option><option value="4">4本</option><option value="5">5本</option><option value="6">6本</option><option value="7">7本</option><option value="8">8本</option><option value="9">9本</option><option value="10">10本</option><option value="11">11本</option><option value="12">12本</option></select>
+          <p class="hint">4本目以降＋¥500／本</p>
+        </div>
+        <div class="wide"><label class="check"><input id="needsQuote" type="checkbox"><span>大幅な補正・特殊加工などが必要 <span class="muted">（個別見積もり）</span></span></label></div>
+      </div>
+    </fieldset>
+    <fieldset><legend><span class="n">03</span>ご依頼者・楽曲情報</legend>
+      <div class="form-grid">
+        <div class="field"><label class="field-label" for="name">活動名・お名前 *</label><input id="name" maxlength="80" autocomplete="nickname" required placeholder="活動名"></div>
+        <div class="field"><label class="field-label" for="email">メールアドレス *</label><input id="email" type="email" maxlength="140" autocomplete="email" required placeholder="name@example.com"></div>
+        <div class="field"><label class="field-label" for="contactMethod">ご希望の連絡方法 *</label><select id="contactMethod"><option value="x">XのDM</option><option value="discord">Discord</option><option value="email">メール</option></select></div>
+        <div class="field"><label class="field-label" for="contactHandle">X ID・Discord ID・メールアドレス *</label><input id="contactHandle" maxlength="140" required placeholder="@ユーザー名など"></div>
+        <div class="field wide"><label class="field-label" for="songTitle">曲名 *</label><input id="songTitle" maxlength="160" required placeholder="曲名 / アーティスト名"></div>
+        <div class="field wide"><label class="field-label" for="originalUrl">原曲URL *</label><input id="originalUrl" type="url" inputmode="url" required placeholder="https://..."></div>
+        <div class="field wide"><label class="field-label" for="audioUrl">音源データの共有URL *</label><input id="audioUrl" type="url" inputmode="url" required placeholder="https://..."></div>
+        <div class="field wide"><p class="hint">ギガファイル便やGoogle Driveで、ダウンロード可能なZIPのURLをご用意ください。音源の送り方は<a href="/#data"><u>Data Guide</u></a>で確認できます。</p></div>
+        <div class="field wide"><label class="field-label" for="referenceUrl">参考音源URL（任意）</label><input id="referenceUrl" type="url" inputmode="url" placeholder="https://..."></div>
+        <div class="field"><label class="field-label" for="requestedDate">希望納期（任意）</label><input id="requestedDate" type="date"></div>
+        <div class="field wide"><label class="field-label" for="notes">ご希望・ご要望（任意）</label><textarea id="notes" maxlength="1200" placeholder="MIXの雰囲気や希望する調整など"></textarea></div>
+        <div style="position:absolute;left:-99999px" aria-hidden="true"><label for="website">サイト</label><input type="text" id="website" tabindex="-1" autocomplete="off"></div>
+      </div>
+    </fieldset>
+    <fieldset><legend><span class="n">04</span>ご確認</legend>
+      <label class="check"><input type="checkbox" id="acceptTerms" required><span><a href="/terms.html" target="_blank"><u>利用規約</u></a>・<a href="/privacy.html" target="_blank"><u>個人情報の取扱い</u></a>に同意します。*</span></label>
+      <p class="hint">お申し込み内容と金額を確認後、Stripeの安全な決済ページに進みます。制作開始前のキャンセルは全額返金です。</p>
+    </fieldset>
+  </form>
+  <aside class="review" aria-label="お支払い内容の確認">
+    <div class="eyebrow">ORDER SUMMARY</div><h2>お支払い内容</h2>
+    <div class="item"><span id="summaryPlanName">フルコーラスMIX</span><span id="summaryPlanPrice">¥4,000</span></div>
+    <div id="summaryOptions"></div>
+    <div class="total"><span>合計金額</span><strong id="totalAmount">¥4,000</strong></div>
+    <button id="payBtn" type="submit" form="request-form" class="submit" disabled>決済準備中</button>
+    <p id="readyStatus" class="ready-status" role="status">現在Stripe決済の受付準備中です。フォーム内容はご確認いただけます。</p>
+    <div id="formError" class="error" role="alert" aria-live="polite"></div>
+    <p class="after">PayPay・ギフトカードでのお支払いをご希望の場合や、複雑な編集は事前にご相談ください。</p>
+    <a class="alternate" href="https://x.com/danstudio_wav" target="_blank" rel="noopener noreferrer">Xで相談する ↗</a>
+    <div class="notes">お支払い後、制作内容を確認してご連絡します。現時点では受付準備中のため、カードへの請求は発生しません。</div>
+  </aside>
+  </div>
+</main>
+<footer class="shell"><span>© dan.</span><span><a href="/terms.html">Terms</a>　<a href="/privacy.html">Privacy</a></span></footer>
+<script>
+(() => {
+  const $=id=>document.getElementById(id);
+  const plans={short:{label:'ショートMIX',price:2000},one:{label:'ワンコーラスMIX',price:3000},full:{label:'フルコーラスMIX',price:4000}};
+  const fmt=n=>'¥'+n.toLocaleString('ja-JP');
+  const btn=$('payBtn'),status=$('readyStatus'),error=$('formError');
+  let available=false,busy=false;
+  const selected=()=>document.querySelector('input[name="plan"]:checked')?.value||'full';
+  const calc=()=>{
+    const p=plans[selected()], harmony=$('harmony').checked, singers=Number($('additionalSingers').value),tracks=Number($('vocalTracks').value);
+    let total=p.price;
+    $('summaryPlanName').textContent=p.label;$('summaryPlanPrice').textContent=fmt(p.price);
+    const add=(label,amount)=>{const row=document.createElement('div');row.className='item';const name=document.createElement('span');name.textContent=label;const value=document.createElement('span');value.textContent=fmt(amount);row.append(name,value);$('summaryOptions').append(row);total+=amount;};
+    $('summaryOptions').replaceChildren();
+    if(harmony)add('ハモリ生成',1500);
+    if(singers)add('歌唱者の追加 × '+singers,singers*2500);
+    if(tracks>3)add('追加トラック × '+(tracks-3),(tracks-3)*500);
+    $('totalAmount').textContent=fmt(total);
+    const quote=$('needsQuote').checked;
+    btn.disabled=!available||quote||busy;
+    btn.textContent=busy?'決済画面へ移動中…':quote?'個別お見積もりが必要です':available?'Stripeで決済に進む':'決済準備中';
+    if(quote)status.textContent='大幅な補正・特殊加工をご希望の場合は、決済前にXのDMからお見積もりをご相談ください。';
+    else status.textContent=available?'決済画面へ移動する前に、入力内容と金額をご確認ください。':'現在Stripe決済の受付準備中です。フォーム内容はご確認いただけます。';
+  };
+  document.querySelectorAll('input[name="plan"]').forEach(x=>x.addEventListener('change',calc));
+  ['harmony','additionalSingers','vocalTracks','needsQuote'].forEach(id=>$(id).addEventListener('change',calc));
+  if(new URLSearchParams(location.search).get('cancelled')==='1')error.textContent='決済はキャンセルされました。カードへの請求は発生していません。';
+  fetch('/api/checkout-config',{cache:'no-store'}).then(r=>r.json()).then(r=>{available=r.available===true;calc();}).catch(()=>{available=false;calc();});
+  $('request-form').addEventListener('submit',async e=>{
+    e.preventDefault();
+    if(!available||busy)return;
+    error.textContent='';
+    const form=e.currentTarget;if(!form.reportValidity())return;
+    const p={
+      plan:selected(),harmony:$('harmony').checked,additionalSingers:Number($('additionalSingers').value),
+      vocalTracks:Number($('vocalTracks').value),needsQuote:$('needsQuote').checked,
+      name:$('name').value,email:$('email').value,contactMethod:$('contactMethod').value,contactHandle:$('contactHandle').value,
+      songTitle:$('songTitle').value,originalUrl:$('originalUrl').value,audioUrl:$('audioUrl').value,
+      referenceUrl:$('referenceUrl').value,requestedDate:$('requestedDate').value,notes:$('notes').value,
+      website:$('website').value,acceptTerms:$('acceptTerms').checked
+    };
+    busy=true;calc();
+    try{
+      const r=await fetch('/api/checkout',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(p)});
+      const data=await r.json();
+      if(!r.ok||!data.checkoutUrl)throw Error(data.error||'決済画面の準備に失敗しました。');
+      window.location.assign(data.checkoutUrl);
+    }catch(err){error.textContent=err.message||'送信に失敗しました。';busy=false;calc();}
+  });
+  calc();
+})();
+</script>
+</body>
+</html>
