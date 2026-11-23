@@ -8,7 +8,7 @@ const enabled = (env) => env.PAYMENTS_ENABLED==='true' && !!env.STRIPE_API_KEY &
 const parseOrder = (p) => {
   if(!p || typeof p !== 'object' || Array.isArray(p)) throw Error('入力内容を確認してください。');
   const plan = normalize(p.plan,20);
-  if(!(plan in PRICES)) throw Error('プランを選択してください。');
+  if(!Object.hasOwn(PRICES,plan)) throw Error('プランを選択してください。');
   const vocalTracks = Number(p.vocalTracks);
   const additionalSingers = Number(p.additionalSingers);
   if(!Number.isInteger(vocalTracks)||vocalTracks<1||vocalTracks>12) throw Error('ボーカルトラック数を確認してください。');
@@ -57,7 +57,7 @@ async function checkout(request,env){
   const raw=await request.text();if(raw.length>MAX_BODY) return json({error:'入力内容が大きすぎます。'},413);
   let data;
   try {data=parseOrder(JSON.parse(raw));await rateLimit(request,env)}catch(e){return json({error:e.message||'入力をご確認ください。'},400)}
-  const id=crypto.randomUUID(); const expiresAt=new Date(Date.now()+30*60*1000).toISOString();
+  const id=crypto.randomUUID(); const expirationEpoch=Math.floor(Date.now()/1000)+3600; const expiresAt=new Date(expirationEpoch*1000).toISOString();
   try {
     await env.DB.prepare('INSERT INTO orders (id,status,amount_jpy,plan,customer_name,customer_email,contact_method,contact_handle,song_title,original_url,audio_url,reference_url,requested_date,vocal_tracks,additional_singers,harmony,video_sync,video_url,notes,expires_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(
       id,'awaiting_payment',data.amount,data.plan,data.name,data.email,data.contactMethod,data.contactHandle,data.songTitle,data.originalUrl,data.audioUrl,data.referenceUrl,data.requestedDate,data.vocalTracks,data.additionalSingers,data.harmony?1:0,data.videoSync?1:0,data.videoUrl,data.notes,expiresAt
@@ -66,10 +66,11 @@ async function checkout(request,env){
     if(url.protocol!=='https:') return json({error:'安全な接続が必要です。'},400);
     const params = new URLSearchParams();
     params.set('mode','payment');
+    params.set('expires_at',String(expirationEpoch));
     params.set('locale','ja');
     params.set('customer_email',data.email);
     params.set('client_reference_id',id);
-    params.set('success_url',url.origin+'/complete.html');
+    params.set('success_url',url.origin+'/complete.html?session_id={CHECKOUT_SESSION_ID}');
     params.set('cancel_url',url.origin+'/request.html?cancelled=1');
     params.set('line_items[0][price_data][currency]','jpy');
     params.set('line_items[0][price_data][unit_amount]',String(data.amount));
@@ -138,11 +139,21 @@ async function webhook(request,env){
   ]);
   return new Response('ok');
 }
+async function orderStatus(request,env){
+  if(!env.DB) return json({error:'Not configured'},503);
+  const id=new URL(request.url).searchParams.get('session_id')||'';
+  if(!/^cs_[A-Za-z0-9_]{10,200}$/.test(id)) return json({status:'unknown'},400);
+  const order=await env.DB.prepare('SELECT status FROM orders WHERE stripe_session_id=?').bind(id).first();
+  if(!order) return json({status:'unknown'},404);
+  const state=order.status==='paid'?'paid':order.status==='payment_failed'?'failed':order.status==='expired'?'expired':'pending';
+  return json({status:state});
+}
 export default {
   async fetch(request,env) {
     const path=new URL(request.url).pathname;
     try {
       if(path==='/api/checkout-config'&&request.method==='GET') return json({available:enabled(env)});
+      if(path==='/api/order-status'&&request.method==='GET') return orderStatus(request,env);
       if(path==='/api/checkout'&&request.method==='POST') return checkout(request,env);
       if(path==='/api/stripe-webhook'&&request.method==='POST') return webhook(request,env);
       if(path.startsWith('/api/'))return json({error:'Not found'},404);
