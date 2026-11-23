@@ -120,3 +120,36 @@ test('checkout pricing, video request, signature validation, webhook fulfillment
    assert.equal(after.status,'paid');
  } finally {globalThis.fetch=savedFetch;}
 });
+
+test('asynchronous settlement does not mark unpaid sessions as paid',async()=>{
+  const db=database(),env=envFor(db),session='cs_test_async1234567890';
+  const savedFetch=globalThis.fetch;
+  globalThis.fetch=async()=>new Response(JSON.stringify({id:session,url:'https://checkout.stripe.com/c/pay/fake-async-only'}),{status:200});
+  try{
+    const checkout=await worker.fetch(orderRequest({...validOrder,videoSync:false,videoUrl:''}),env);
+    assert.equal(checkout.status,200);
+    const [order]=db.orders.values();
+    const eventHeaders=(payload)=>{
+      const stamp=String(Math.floor(Date.now()/1000));
+      const sig=createHmac('sha256',secret).update(stamp+'.'+payload).digest('hex');
+      return {'Stripe-Signature':'t='+stamp+',v1='+sig};
+    };
+    const eventFor=(id,type,payment_status,amount=7000)=>JSON.stringify({
+      id,type,data:{object:{id:session,client_reference_id:order.id,amount_total:amount,currency:'jpy',payment_status,payment_intent:'pi_test_delayed'}}
+    });
+    // Without video sync, the 7500 JPY order is 7000 JPY.
+    assert.equal(order.amount_jpy,7000);
+    const unpaid=eventFor('evt_unpaid','checkout.session.completed','unpaid');
+    assert.equal((await worker.fetch(new Request(origin+'/api/stripe-webhook',{method:'POST',body:unpaid,headers:eventHeaders(unpaid)}),env)).status,200);
+    assert.equal(order.status,'awaiting_payment');
+    const mismatched=eventFor('evt_mismatch','checkout.session.async_payment_succeeded','paid',100);
+    assert.equal((await worker.fetch(new Request(origin+'/api/stripe-webhook',{method:'POST',body:mismatched,headers:eventHeaders(mismatched)}),env)).status,400);
+    assert.equal(order.status,'awaiting_payment');
+    const paid=eventFor('evt_later_paid','checkout.session.async_payment_succeeded','paid');
+    assert.equal((await worker.fetch(new Request(origin+'/api/stripe-webhook',{method:'POST',body:paid,headers:eventHeaders(paid)}),env)).status,200);
+    assert.equal(order.status,'paid');
+    const laterFailure=eventFor('evt_later_failure','checkout.session.async_payment_failed','unpaid');
+    assert.equal((await worker.fetch(new Request(origin+'/api/stripe-webhook',{method:'POST',body:laterFailure,headers:eventHeaders(laterFailure)}),env)).status,200);
+    assert.equal(order.status,'paid','A paid order must never be downgraded by late failures');
+  } finally {globalThis.fetch=savedFetch;}
+});
