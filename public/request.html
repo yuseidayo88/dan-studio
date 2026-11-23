@@ -11,15 +11,40 @@
 :root{--bg:#f9f9f7;--ink:#171717;--muted:#787878;--border:#d8d8d5;--soft:#eeeeec}*{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.7 Inter,"Noto Sans JP",sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}a:hover{text-decoration:underline}.shell{width:min(100% - 60px,1080px);margin:0 auto}
 header{border-bottom:1px solid #e4e4e1;padding:22px 0;background:var(--bg)}.nav{display:flex;align-items:center;justify-content:space-between;gap:20px}.logo{font-size:26px;font-weight:700;letter-spacing:-.09em}.nav a:not(.logo){font-size:12px;color:#555}
-main{padding-top:64px;padding-bottom:90px}.eyebrow{font-size:10px;font-weight:600;letter-spacing:.17em;color:#7b7b7b}.heading h1{font-size:clamp(65px,11vw,118px);letter-spacing:-.09em;font-weight:600;line-height:1;margin:15px 0}.heading p{margin:0;color:#6a6a6a;font-size:13px}.layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(255px,0.85fr);gap:56px;align-items:start;margin-top:65px}
+main{padding-top:64px;padding-bottom:90px}.eyebrow{font-size:10px;font-weight:600;letter-spacing:.17em;color:#7b7b7b}.heading h1{font-size:clamp(65px,11vw,118px);letter-spacing:-.09em;font-weight:600;line-height:1;margin:15px 0}.heading p{margin:0;color:#6a6a6a;font-size:13px}.layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(255px,0.85fr);gap:56px;align-items:start;margin-top:65px}.layout>*{min-width:0}
 fieldset{border:0;padding:0;margin:0 0 50px;min-width:0}legend{padding:0 0 20px;width:100%;border-bottom:1px solid var(--ink);font-size:18px;font-weight:600;letter-spacing:-.02em;margin-bottom:22px}
-.n{display:inline-block;font-size:11px;color:#888;margin-right:14px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:19px 15px}.field{min-width:0}.wide{grid-column:1/-1}label.field-label{display:block;font-size:11px;font-weight:600;color:#535353;margin:0 0 8px;letter-spacing:.02em}
-input:not([type=checkbox]),select,textarea{width:100%;padding:13px 14px;border:1px solid #d6d6d3;border-radius:0;background:#fff;color:#111;font:13px/1.6 Inter,"Noto Sans JP",sans-serif;outline:none;min-height:47px}
-input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1px #151515}textarea{min-height:100px;resize:vertical}.quick-hint{font-size:12px;line-height:1.85;color:#606060;margin:0 0 19px}.optional-info{border-top:1px solid var(--border);margin-top:22px}.optional-info summary{cursor:pointer;padding:17px 0;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none}.optional-info summary::-webkit-details-marker{display:none}.optional-info summary span{font-size:17px;font-weight:400;color:#777}.optional-info[open] summary span{transform:rotate(45deg)}.optional-grid{padding:11px 0 10px}.hint{font-size:11px;color:#888;line-height:1.8;margin:6px 0 0}.plan-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.plan{cursor:pointer}.plan input{position:absolute;opacity:0;pointer-events:none}.plan-body{min-height:106px;background:#fff;border:1px solid var(--border);padding:16px 12px;display:flex;flex-direction:column;justify-content:space-between;gap:12px}.plan input:checked+.plan-body{border:2px solid #151515;padding:15px 11px}.plan input:focus-visible+.plan-body{outline:2px solid #000;outline-offset:2px}.plan-title{font-size:12px;font-weight:600}.plan-price{font-size:20px;font-weight:600;line-height:1}.plan-price small{font-size:10px;font-weight:400;color:#777}
-.check{display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.8;margin:9px 0;cursor:pointer}.check input{accent-color:#111;margin-top:5px}.check strong{font-size:13px}.muted{color:#777}.review{position:sticky;top:25px;border-top:1px solid #111;padding-top:20px}.review h2{font-size:27px;letter-spacing:-.045em;font-weight:550;margin:0 0 19px}.item{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:12px}.item span:last-child{white-space:nowrap;font-variant-numeric:tabular-nums}.total{display:flex;justify-content:space-between;align-items:end;padding:24px 0}.total span:first-child{font-size:12px;color:#777}.total strong{font-size:32px;font-weight:600;letter-spacing:-.05em;line-height:1}.submit{background:#171717;color:#fff;width:100%;min-height:54px;padding:14px 12px;border:1px solid #171717;font:600 13px Inter,"Noto Sans JP",sans-serif;cursor:pointer}.submit:hover:not(:disabled){background:#333}.submit:disabled{background:#777;border-color:#777;cursor:not-allowed}.ready-status{font-size:11px;color:#777;line-height:1.8;margin-top:11px}.error{font-size:12px;color:#9a2020;margin-top:14px;min-height:18px}.after{font-size:11px;color:#777;margin:18px 0;line-height:1.9}.alternate{display:inline-block;font-size:12px;border-bottom:1px solid #555;padding:4px 0}.notes{border-top:1px solid var(--border);margin-top:26px;padding-top:18px;font-size:11px;line-height:1.9;color:#777}footer{padding:33px 0 44px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:11px;color:#777}
-@media(max-width:850px){.layout{grid-template-columns:1fr;gap:20px}.review{position:static;border-top:1px solid #111;max-width:none}.shell{width:min(100% - 36px,1080px)}main{padding-top:45px}.layout{margin-top:42px}}
-@media(max-width:430px){.heading h1{font-size:70px}.form-grid{grid-template-columns:1fr}.plan-body{padding:11px 8px;min-height:102px}.plan input:checked+.plan-body{padding:10px 7px}.plan-title{font-size:11px}.plan-price{font-size:17px}.nav a:not(.logo){font-size:11px}.heading p{font-size:12px}}
+.n{display:inline-block;font-size:11px;color:#888;margin-right:14px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:19px 15px}.field{min-width:0}.wide{grid-column:1/-1}label.field-label{display:block;font-size:11px;font-weight:600;color:#535353;margin:0 0 8px;letter-spacing:.02em}
+input:not([type=checkbox]):not([type=radio]),select,textarea{width:100%;min-width:0;max-width:100%;padding:13px 14px;border:1px solid #d6d6d3;border-radius:0;background:#fff;color:#111;font:13px/1.6 Inter,"Noto Sans JP",sans-serif;outline:none;min-height:47px}
+input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1px #151515}textarea{min-height:100px;resize:vertical}.quick-hint{font-size:12px;line-height:1.85;color:#606060;margin:0 0 19px}.optional-info{border-top:1px solid var(--border);margin-top:22px}.optional-info summary{cursor:pointer;padding:17px 0;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none}.optional-info summary::-webkit-details-marker{display:none}.optional-info summary span{font-size:17px;font-weight:400;color:#777}.optional-info[open] summary span{transform:rotate(45deg)}.optional-grid{padding:11px 0 10px}.hint{font-size:11px;color:#888;line-height:1.8;margin:6px 0 0}.plan-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.plan{position:relative;display:block;min-width:0;cursor:pointer}.plan input[type=radio]{position:absolute;width:1px;height:1px;margin:0;padding:0;opacity:0;overflow:hidden;clip-path:inset(50%)}.plan-body{min-height:106px;background:#fff;border:1px solid var(--border);padding:16px 12px;display:flex;flex-direction:column;justify-content:space-between;gap:12px}.plan input:checked+.plan-body{border:2px solid #151515;padding:15px 11px}.plan input:focus-visible+.plan-body{outline:2px solid #000;outline-offset:2px}.plan-title{font-size:12px;font-weight:600}.plan-price{font-size:20px;font-weight:600;line-height:1.15}.plan-price small{display:block;margin-top:5px;font-size:10px;font-weight:400;color:#777}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.8;margin:9px 0;cursor:pointer}.check input{accent-color:#111;margin-top:5px}.check strong{font-size:13px}.muted{color:#777}.review{position:sticky;top:25px;border-top:1px solid #111;padding-top:20px;min-width:0}.review h2{font-size:27px;letter-spacing:-.045em;font-weight:550;margin:0 0 19px}.item{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:12px;min-width:0}.item span:first-child{min-width:0;overflow-wrap:anywhere}.item span:last-child{white-space:nowrap;font-variant-numeric:tabular-nums}.total{display:flex;justify-content:space-between;align-items:end;padding:24px 0}.total span:first-child{font-size:12px;color:#777}.total strong{font-size:32px;font-weight:600;letter-spacing:-.05em;line-height:1}.submit{background:#171717;color:#fff;width:100%;min-height:54px;padding:14px 12px;border:1px solid #171717;font:600 13px Inter,"Noto Sans JP",sans-serif;cursor:pointer}.submit:hover:not(:disabled){background:#333}.submit:disabled{background:#777;border-color:#777;cursor:not-allowed}.ready-status{font-size:11px;color:#777;line-height:1.8;margin-top:11px}.error{font-size:12px;color:#9a2020;margin-top:14px;min-height:18px}.after{font-size:11px;color:#777;margin:18px 0 12px;line-height:1.9}.contact-choices{display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px;margin:12px 0 4px}.alternate{display:inline-block;font-size:12px;border-bottom:1px solid #555;padding:4px 0}.discord-note{margin:8px 0 0;color:#777;font-size:11px;line-height:1.85}.discord-note strong{color:#333;font-weight:600}.notes{border-top:1px solid var(--border);margin-top:26px;padding-top:18px;font-size:11px;line-height:1.9;color:#777}footer{padding:33px 0 44px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:11px;color:#777}
+@media(max-width:850px){.layout{grid-template-columns:minmax(0,1fr);gap:20px}.review{position:static;border-top:1px solid #111;max-width:none}.shell{width:min(100% - 36px,1080px)}main{padding-top:45px}.layout{margin-top:42px}}
+@media(max-width:640px){
+  .shell{width:calc(100% - 32px)}
+  header{padding:16px 0}.nav{gap:12px}.nav a:not(.logo){font-size:11px}
+  main{padding-top:36px;padding-bottom:58px}
+  .heading h1{font-size:clamp(54px,15vw,76px);margin:12px 0 8px;line-height:1.08}
+  .heading p{font-size:12px}
+  .layout{margin-top:37px;gap:6px}
+  fieldset{margin:0 0 33px}
+  legend{font-size:16px;margin:0 0 18px;padding-bottom:15px}
+  .form-grid{grid-template-columns:minmax(0,1fr);gap:17px}
+  .plan-options{grid-template-columns:minmax(0,1fr);gap:8px}
+  .plan-body{flex-direction:row;align-items:center;min-height:70px;gap:16px;padding:13px 15px}
+  .plan input:checked+.plan-body{padding:12px 14px}
+  .plan-title{font-size:13px;line-height:1.5}
+  .plan-price{font-size:19px;text-align:right;white-space:nowrap;flex-shrink:0}
+  .plan-price small{font-size:10px;margin-top:6px}
+  input:not([type=checkbox]):not([type=radio]),select,textarea{font-size:16px;min-height:48px}
+  .optional-info summary{line-height:1.65}
+  .review{margin-top:0;padding-top:18px}
+  .review h2{font-size:24px;margin-bottom:13px}
+  .total{padding:21px 0}.total strong{font-size:30px}
+  .submit{min-height:56px;font-size:14px}
+  .after{margin-top:17px}
+  footer{padding:26px 0 34px}
+}
+@media(max-width:350px){.shell{width:calc(100% - 28px)}.heading h1{font-size:51px}.plan-body{padding:12px}.plan input:checked+.plan-body{padding:11px}.plan-title{font-size:12px}.plan-price{font-size:18px}}
 [hidden]{display:none!important}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
@@ -87,8 +112,12 @@ input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1p
     <button id="payBtn" type="submit" form="request-form" class="submit" disabled>決済準備中</button>
     <p id="readyStatus" class="ready-status" role="status">現在Stripe決済の受付準備中です。フォーム内容はご確認いただけます。</p>
     <div id="formError" class="error" role="alert" aria-live="polite"></div>
-    <p class="after">決済には運営者のStripeアカウント「INWAVE」を利用します。カードのご利用明細等に「INWAVE」と表示される場合があります。現在PayPayには対応していません。複雑な編集は事前にご相談ください。</p>
-    <a class="alternate" href="https://x.com/danstudio_wav" target="_blank" rel="noopener noreferrer">Xで相談する ↗</a>
+    <p class="after">PayPayでのお支払いをご希望の方は、XのDMまたはDiscordから個別にご相談ください。大幅な補正・特殊加工についても事前にご相談ください。<br>オンライン決済は「INWAVE」名義で処理され、カード明細等に「INWAVE」と表示される場合があります。</p>
+    <div class="contact-choices">
+      <a class="alternate" href="https://x.com/danstudio_wav" target="_blank" rel="noopener noreferrer">Xで相談する ↗</a>
+      <a class="alternate" href="https://discord.com/channels/@me" target="_blank" rel="noopener noreferrer">Discordを開く ↗</a>
+    </div>
+    <p class="discord-note">Discord ID：<strong>danstudio.wav</strong>（Discordで検索してください）</p>
     <div class="notes" id="payment-note">お支払い後、制作内容を確認してご連絡します。現時点では受付準備中のため、カードへの請求は発生しません。</div>
   </aside>
   </div>
