@@ -158,14 +158,14 @@ a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}img{disp
         </details>
       </div>
       <p class="fineprint">提出いただく音源の状態によっては、再録音や別途お見積もりをお願いする場合があります。すべての料金は事前にご案内します。</p>
-      <p class="fineprint">お支払いはStripeのカード決済を基本とする予定です。PayPay・ギフトカードなど、その他の方法をご希望の場合は事前にご相談ください。対応可否は個別にご案内します。</p>
+      <p class="fineprint">正式受付開始後はStripe決済を利用予定です。利用できる決済手段はStripeの決済画面に表示されます。PayPayなど特定のお支払い方法をご希望の場合は事前にご相談ください。</p>
     </section>
 
     <section id="order" class="section shell" aria-labelledby="order-title">
       <div class="section-heading"><div><span class="section-index">02 / PROCESS</span><h2 id="order-title">Order<span class="period">.</span></h2></div><p class="section-note">ご依頼の流れ</p></div>
       <div class="steps">
         <div class="step"><span>01</span><h3>ご相談</h3><p>フォームまたはXのDMからご相談ください。</p></div>
-        <div class="step"><span>02</span><h3>お見積もり</h3><p>料金と納期を確定後、Stripeのカード決済リンクをご案内します。</p></div>
+        <div class="step"><span>02</span><h3>お支払い</h3><p>定額プランは合計金額を確認してStripeで決済。個別見積もりが必要な場合は先にご相談ください。</p></div>
         <div class="step"><span>03</span><h3>MIX制作</h3><p>MIX制作後、確認用の初稿をお送りします。</p></div>
         <div class="step"><span>04</span><h3>納品</h3><p>修正・確認後、完成データを納品します。</p></div>
       </div>
@@ -226,16 +226,16 @@ a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}img{disp
         <details><summary>動画合わせとは何ですか？ <span aria-hidden="true">+</span></summary><div class="accordion-content"><p>ご用意いただいた完成済み動画にMIX後の音源を合わせ、MP4で納品するオプションです（＋¥500）。完成済み動画の共有URLをお送りください。映像のカット編集・テロップ制作・MV制作は含まれません。</p></div></details>
         <details><summary>録音データが1つしかなくても大丈夫ですか？ <span aria-hidden="true">+</span></summary><div class="accordion-content"><p>メインボーカル1本と伴奏音源があればご相談可能です。ハモリ・ダブルは必須ではありません。</p></div></details>
         <details><summary>修正はどこまでお願いできますか？ <span aria-hidden="true">+</span></summary><div class="accordion-content"><p>音量・EQ・リバーブ・ディレイ・軽度な補正など、当初のご依頼範囲内の調整が対象です。複数箇所の希望を1回にまとめてお伝えいただけます。</p></div></details>
-        <details><summary>支払い・キャンセルのルールは？ <span aria-hidden="true">+</span></summary><div class="accordion-content"><p>Stripeによるクレジットカード決済を基本とする予定です。お見積もりに同意後、専用の決済URLを個別にお送りします。PayPay・ギフトカードなどをご希望の場合は事前にご相談ください（対応できない場合もあります）。制作開始前のキャンセルは全額返金。着手後は制作の進捗に応じて精算します。現在は受付準備中です。詳しくは<a href="terms.html"><u>利用規約</u></a>をご覧ください。</p></div></details>
+        <details><summary>支払い・キャンセルのルールは？ <span aria-hidden="true">+</span></summary><div class="accordion-content"><p>定額プランは申し込みフォームで金額を確認してStripeからお支払いいただく予定です。個別見積もりが必要なご依頼は、事前にXのDMでご相談ください。利用可能な決済手段は決済画面に表示されます。制作開始前のキャンセルは全額返金。着手後は制作の進捗に応じて精算します。現在は受付準備中です。詳しくは<a href="terms.html"><u>利用規約</u></a>をご覧ください。</p></div></details>
         <details><summary>MIX実績として公開されますか？ <span aria-hidden="true">+</span></summary><div class="accordion-content"><p>ご本人の許可がない音源を、実績・サンプルとして公開することはありません。</p></div></details>
       </div>
     </section>
 
     <section id="contact" class="contact-section" aria-labelledby="contact-title">
       <div class="shell contact-inner">
-        <div><span class="section-index">06 / CONTACT</span><h2 id="contact-title">Contact<span>.</span></h2><span class="contact-title-note">ご相談・お問い合わせ</span><p>X・Discordからお気軽にご相談ください。</p><span class="contact-status">無償MIX 先着3件募集中（1分以内・実績掲載OKの方） / 有料受付は準備中</span></div>
+        <div><span class="section-index">06 / CONTACT</span><h2 id="contact-title">Contact<span>.</span></h2><span class="contact-title-note">ご相談・お問い合わせ</span><p>X・Discordからお気軽にご相談ください。</p><span class="contact-status">無償MIX 先着3件募集中（1分以内・実績掲載OKの方） / <span id="paid-status">有料受付は準備中</span></span></div>
         <div class="contact-actions">
-          <a class="contact-link" href="/request.html">有料MIX依頼フォーム <span class="contact-account">準備中 ↗</span></a>
+          <a class="contact-link" href="/request.html">有料MIX依頼フォーム <span class="contact-account" id="paid-form-state">準備中 ↗</span></a>
           <a class="contact-link contact-secondary" href="https://x.com/danstudio_wav" target="_blank" rel="noopener noreferrer">Xで相談する <span class="contact-account">@danstudio_wav ↗</span></a>
           <a class="contact-link contact-secondary discord-copy" id="copy-discord" href="https://discord.com/channels/@me" target="_blank" rel="noopener noreferrer" aria-label="Discordを開いて danstudio.wav に相談する">Discordで相談する <span class="contact-account">danstudio.wav <span aria-hidden="true">↗</span></span></a>
           <p class="contact-hint">Discordが開いたら「フレンドを追加」で danstudio.wav を検索してください。ユーザー名はリンクを押すとコピーできます。</p>
@@ -264,6 +264,13 @@ a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}img{disp
   window.addEventListener('keydown', (event) => { if (event.key === 'Escape') setOpen(false); });
   window.addEventListener('resize', () => { if (window.innerWidth > 620) setOpen(false); });
 
+  fetch('/api/checkout-config', {cache:'no-store'}).then(r=>r.ok?r.json():null).then(data=>{
+    if(data?.available!==true)return;
+    const state=document.getElementById('paid-form-state');
+    const status=document.getElementById('paid-status');
+    if(state)state.textContent='受付中 ↗';
+    if(status)status.textContent='有料受付中';
+  }).catch(()=>{});
   const discordButton = document.getElementById('copy-discord');
   const discordFeedback = document.getElementById('discord-feedback');
   discordButton?.addEventListener('click', async () => {
