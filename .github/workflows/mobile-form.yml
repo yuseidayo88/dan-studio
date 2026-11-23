@@ -1,0 +1,31 @@
+name: Mobile request form visual layout checks
+on:
+  push:
+    paths:
+      - "public/request.html"
+      - "tests/mobile-form.mjs"
+      - ".github/workflows/mobile-form.yml"
+  pull_request:
+    paths:
+      - "public/request.html"
+      - "tests/mobile-form.mjs"
+      - ".github/workflows/mobile-form.yml"
+jobs:
+  mobile-form:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Chromium browser driver
+        run: npm install --no-save --no-package-lock --ignore-scripts puppeteer-core@24
+      - name: Detect installed Chrome
+        run: |
+          command -v google-chrome || command -v chromium || command -v chromium-browser
+          echo "CHROME_BIN=$(command -v google-chrome || command -v chromium || command -v chromium-browser)" >> "$GITHUB_ENV"
+      - name: Check mobile overflow and controls
+        run: node --test tests/mobile-form.mjs
