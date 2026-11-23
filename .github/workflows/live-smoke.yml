@@ -1,0 +1,19 @@
+name: Live Pages payment smoke checks
+on:
+  push:
+    paths:
+      - "tests/live-smoke.test.mjs"
+      - ".github/workflows/live-smoke.yml"
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check deployed Pages app and Stripe endpoints without charging anyone
+        run: node --test tests/live-smoke.test.mjs
