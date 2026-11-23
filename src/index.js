@@ -118,9 +118,9 @@ async function webhook(request,env){
   if(!['checkout.session.completed','checkout.session.async_payment_succeeded','checkout.session.async_payment_failed','checkout.session.expired'].includes(event.type)) return new Response('ok');
   const session=event.data?.object;
   const orderId=session?.client_reference_id||session?.metadata?.order_id;
-  if(!orderId||!session?.id) return new Response('Missing reference',{status:400});
+  if(!orderId||!session?.id) return new Response('unrelated event');
   const order=await env.DB.prepare('SELECT id,amount_jpy,stripe_session_id,status FROM orders WHERE id=?').bind(orderId).first();
-  if(!order) return new Response('Unknown order',{status:500});
+  if(!order) return new Response('unrelated order');
   if(order.stripe_session_id&&order.stripe_session_id!==session.id) return new Response('Session mismatch',{status:400});
   if(Number(session.amount_total)!==Number(order.amount_jpy)||String(session.currency)!=='jpy') return new Response('Amount mismatch',{status:400});
   const seen=await env.DB.prepare('SELECT event_id FROM webhook_events WHERE event_id=?').bind(event.id).first();
