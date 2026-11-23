@@ -14,6 +14,9 @@ const parseOrder = (p) => {
   if(!Number.isInteger(vocalTracks)||vocalTracks<1||vocalTracks>12) throw Error('ボーカルトラック数を確認してください。');
   if(!Number.isInteger(additionalSingers)||additionalSingers<0||additionalSingers>4) throw Error('参加人数を確認してください。');
   const harmony = p.harmony===true;
+  const videoSync = p.videoSync===true;
+  const videoUrl = normalize(p.videoUrl,500);
+  if(videoSync && !httpsURL(videoUrl)) throw Error('動画合わせには、完成済み動画の共有URLが必要です。');
   const name = normalize(p.name,80);
   const email = normalize(p.email,140);
   const contactMethod = normalize(p.contactMethod,20);
@@ -32,8 +35,8 @@ const parseOrder = (p) => {
   if(p.needsQuote===true) throw Error('複雑な編集は、決済前にXのDMでお見積もりをご相談ください。');
   if(p.acceptTerms!==true) throw Error('利用規約への同意が必要です。');
   if(normalize(p.website,100)) throw Error('受付できませんでした。');
-  const amount = PRICES[plan] + (harmony?1500:0) + additionalSingers*2500 + Math.max(0,vocalTracks-3)*500;
-  return {plan,vocalTracks,additionalSingers,harmony,name,email,contactMethod,contactHandle,songTitle,originalUrl,audioUrl,referenceUrl,requestedDate,notes,amount};
+  const amount = PRICES[plan] + (harmony?1500:0) + (videoSync?500:0) + additionalSingers*2500 + Math.max(0,vocalTracks-3)*500;
+  return {plan,vocalTracks,additionalSingers,harmony,videoSync,videoUrl:videoSync?videoUrl:'',name,email,contactMethod,contactHandle,songTitle,originalUrl,audioUrl,referenceUrl,requestedDate,notes,amount};
 };
 const hex = bytes => Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('');
 function randomLetters(n=8){const b=crypto.getRandomValues(new Uint8Array(n));return Array.from(b,x=>String.fromCharCode(97+x%26)).join('');}
@@ -56,8 +59,8 @@ async function checkout(request,env){
   try {data=parseOrder(JSON.parse(raw));await rateLimit(request,env)}catch(e){return json({error:e.message||'入力をご確認ください。'},400)}
   const id=crypto.randomUUID(); const expiresAt=new Date(Date.now()+30*60*1000).toISOString();
   try {
-    await env.DB.prepare('INSERT INTO orders (id,status,amount_jpy,plan,customer_name,customer_email,contact_method,contact_handle,song_title,original_url,audio_url,reference_url,requested_date,vocal_tracks,additional_singers,harmony,notes,expires_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(
-      id,'awaiting_payment',data.amount,data.plan,data.name,data.email,data.contactMethod,data.contactHandle,data.songTitle,data.originalUrl,data.audioUrl,data.referenceUrl,data.requestedDate,data.vocalTracks,data.additionalSingers,data.harmony?1:0,data.notes,expiresAt
+    await env.DB.prepare('INSERT INTO orders (id,status,amount_jpy,plan,customer_name,customer_email,contact_method,contact_handle,song_title,original_url,audio_url,reference_url,requested_date,vocal_tracks,additional_singers,harmony,video_sync,video_url,notes,expires_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(
+      id,'awaiting_payment',data.amount,data.plan,data.name,data.email,data.contactMethod,data.contactHandle,data.songTitle,data.originalUrl,data.audioUrl,data.referenceUrl,data.requestedDate,data.vocalTracks,data.additionalSingers,data.harmony?1:0,data.videoSync?1:0,data.videoUrl,data.notes,expiresAt
     ).run();
     const url = new URL(request.url);
     if(url.protocol!=='https:') return json({error:'安全な接続が必要です。'},400);
@@ -71,7 +74,7 @@ async function checkout(request,env){
     params.set('line_items[0][price_data][currency]','jpy');
     params.set('line_items[0][price_data][unit_amount]',String(data.amount));
     params.set('line_items[0][price_data][product_data][name]','dan. '+LABELS[data.plan]);
-    params.set('line_items[0][price_data][product_data][description]','歌唱者追加 '+data.additionalSingers+'名 / ボーカル '+data.vocalTracks+'本 / ハモリ生成 '+(data.harmony?'あり':'なし'));
+    params.set('line_items[0][price_data][product_data][description]','歌唱者追加 '+data.additionalSingers+'名 / ボーカル '+data.vocalTracks+'本 / ハモリ生成 '+(data.harmony?'あり':'なし')+' / 動画合わせ '+(data.videoSync?'あり':'なし'));
     params.set('line_items[0][quantity]','1');
     params.set('metadata[order_id]',id);
     params.set('metadata[contact_method]',data.contactMethod);
