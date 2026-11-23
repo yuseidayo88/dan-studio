@@ -20,7 +20,7 @@ const parseOrder = (p) => {
   const name = normalize(p.name,80);
   const email = normalize(p.email,140);
   const contactMethod = normalize(p.contactMethod,20);
-  const contactHandle = normalize(p.contactHandle,140) || normalize(p.email,140);
+  const contactHandle = contactMethod==='email' ? email : normalize(p.contactHandle,140);
   const songTitle = normalize(p.songTitle,160);
   const originalUrl = normalize(p.originalUrl,500);
   const audioUrl = normalize(p.audioUrl,500);
@@ -30,6 +30,7 @@ const parseOrder = (p) => {
   if(!name) throw Error('活動名・お名前を入力してください。');
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw Error('メールアドレスを確認してください。');
   if(!['x','discord','email'].includes(contactMethod)) throw Error('連絡方法を選択してください。');
+  if(contactMethod!=='email' && !contactHandle) throw Error('X・DiscordのIDを入力してください。');
   if((originalUrl&&!httpsURL(originalUrl))||(audioUrl&&!httpsURL(audioUrl))||(referenceUrl&&!httpsURL(referenceUrl))) throw Error('URLはhttps://から始まる有効なリンクにしてください。');
   if(requestedDate&&!/^\d{4}-\d{2}-\d{2}$/.test(requestedDate)) throw Error('希望納期を確認してください。');
   if(p.needsQuote===true) throw Error('複雑な編集は、決済前にXのDMでお見積もりをご相談ください。');
