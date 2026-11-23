@@ -15,7 +15,7 @@ main{padding-top:64px;padding-bottom:90px}.eyebrow{font-size:10px;font-weight:60
 fieldset{border:0;padding:0;margin:0 0 50px;min-width:0}legend{padding:0 0 20px;width:100%;border-bottom:1px solid var(--ink);font-size:18px;font-weight:600;letter-spacing:-.02em;margin-bottom:22px}
 .n{display:inline-block;font-size:11px;color:#888;margin-right:14px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:19px 15px}.field{min-width:0}.wide{grid-column:1/-1}label.field-label{display:block;font-size:11px;font-weight:600;color:#535353;margin:0 0 8px;letter-spacing:.02em}
 input:not([type=checkbox]),select,textarea{width:100%;padding:13px 14px;border:1px solid #d6d6d3;border-radius:0;background:#fff;color:#111;font:13px/1.6 Inter,"Noto Sans JP",sans-serif;outline:none;min-height:47px}
-input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1px #151515}textarea{min-height:100px;resize:vertical}.hint{font-size:11px;color:#888;line-height:1.8;margin:6px 0 0}.plan-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1px #151515}textarea{min-height:100px;resize:vertical}.quick-hint{font-size:12px;line-height:1.85;color:#606060;margin:0 0 19px}.optional-info{border-top:1px solid var(--border);margin-top:22px}.optional-info summary{cursor:pointer;padding:17px 0;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none}.optional-info summary::-webkit-details-marker{display:none}.optional-info summary span{font-size:17px;font-weight:400;color:#777}.optional-info[open] summary span{transform:rotate(45deg)}.optional-grid{padding:11px 0 10px}.hint{font-size:11px;color:#888;line-height:1.8;margin:6px 0 0}.plan-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .plan{cursor:pointer}.plan input{position:absolute;opacity:0;pointer-events:none}.plan-body{min-height:106px;background:#fff;border:1px solid var(--border);padding:16px 12px;display:flex;flex-direction:column;justify-content:space-between;gap:12px}.plan input:checked+.plan-body{border:2px solid #151515;padding:15px 11px}.plan input:focus-visible+.plan-body{outline:2px solid #000;outline-offset:2px}.plan-title{font-size:12px;font-weight:600}.plan-price{font-size:20px;font-weight:600;line-height:1}.plan-price small{font-size:10px;font-weight:400;color:#777}
 .check{display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.8;margin:9px 0;cursor:pointer}.check input{accent-color:#111;margin-top:5px}.check strong{font-size:13px}.muted{color:#777}.review{position:sticky;top:25px;border-top:1px solid #111;padding-top:20px}.review h2{font-size:27px;letter-spacing:-.045em;font-weight:550;margin:0 0 19px}.item{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:12px}.item span:last-child{white-space:nowrap;font-variant-numeric:tabular-nums}.total{display:flex;justify-content:space-between;align-items:end;padding:24px 0}.total span:first-child{font-size:12px;color:#777}.total strong{font-size:32px;font-weight:600;letter-spacing:-.05em;line-height:1}.submit{background:#171717;color:#fff;width:100%;min-height:54px;padding:14px 12px;border:1px solid #171717;font:600 13px Inter,"Noto Sans JP",sans-serif;cursor:pointer}.submit:hover:not(:disabled){background:#333}.submit:disabled{background:#777;border-color:#777;cursor:not-allowed}.ready-status{font-size:11px;color:#777;line-height:1.8;margin-top:11px}.error{font-size:12px;color:#9a2020;margin-top:14px;min-height:18px}.after{font-size:11px;color:#777;margin:18px 0;line-height:1.9}.alternate{display:inline-block;font-size:12px;border-bottom:1px solid #555;padding:4px 0}.notes{border-top:1px solid var(--border);margin-top:26px;padding-top:18px;font-size:11px;line-height:1.9;color:#777}footer{padding:33px 0 44px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:11px;color:#777}
 @media(max-width:850px){.layout{grid-template-columns:1fr;gap:20px}.review{position:static;border-top:1px solid #111;max-width:none}.shell{width:min(100% - 36px,1080px)}main{padding-top:45px}.layout{margin-top:42px}}
@@ -53,25 +53,30 @@ input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1p
         <div class="wide"><label class="check"><input id="needsQuote" type="checkbox"><span>大幅な補正・特殊加工などが必要 <span class="muted">（個別見積もり）</span></span></label></div>
       </div>
     </fieldset>
-    <fieldset><legend><span class="n">03</span>ご依頼者・楽曲情報</legend>
+    <fieldset><legend><span class="n">03</span>ご連絡先</legend>
+      <p class="quick-hint">お支払い前の入力は、これだけ。音源・曲名は後からでも大丈夫です。</p>
       <div class="form-grid">
-        <div class="field"><label class="field-label" for="name">活動名・お名前 *</label><input id="name" maxlength="80" autocomplete="nickname" required placeholder="活動名"></div>
-        <div class="field"><label class="field-label" for="email">メールアドレス *</label><input id="email" type="email" maxlength="140" autocomplete="email" required placeholder="name@example.com"></div>
-        <div class="field"><label class="field-label" for="contactMethod">ご希望の連絡方法 *</label><select id="contactMethod"><option value="x">XのDM</option><option value="discord">Discord</option><option value="email">メール</option></select></div>
-        <div class="field"><label class="field-label" for="contactHandle">X ID・Discord ID・メールアドレス *</label><input id="contactHandle" maxlength="140" required placeholder="@ユーザー名など"></div>
-        <div class="field wide"><label class="field-label" for="songTitle">曲名 *</label><input id="songTitle" maxlength="160" required placeholder="曲名 / アーティスト名"></div>
-        <div class="field wide"><label class="field-label" for="originalUrl">原曲URL *</label><input id="originalUrl" type="url" inputmode="url" required placeholder="https://..."></div>
-        <div class="field wide"><label class="field-label" for="audioUrl">音源データの共有URL *</label><input id="audioUrl" type="url" inputmode="url" required placeholder="https://..."></div>
-        <div class="field wide"><p class="hint">ギガファイル便やGoogle Driveで、ダウンロード可能なZIPのURLをご用意ください。音源の送り方は<a href="/#data"><u>Data Guide</u></a>で確認できます。</p></div>
-        <div class="field wide"><label class="field-label" for="referenceUrl">参考音源URL（任意）</label><input id="referenceUrl" type="url" inputmode="url" placeholder="https://..."></div>
-        <div class="field"><label class="field-label" for="requestedDate">希望納期（任意）</label><input id="requestedDate" type="date"></div>
-        <div class="field wide"><label class="field-label" for="notes">ご希望・ご要望（任意）</label><textarea id="notes" maxlength="1200" placeholder="MIXの雰囲気や希望する調整など"></textarea></div>
-        <div style="position:absolute;left:-99999px" aria-hidden="true"><label for="website">サイト</label><input type="text" id="website" tabindex="-1" autocomplete="off"></div>
+        <div class="field"><label class="field-label" for="name">活動名・お名前 *</label><input id="name" maxlength="80" autocomplete="nickname" required placeholder="お名前・活動名"></div>
+        <div class="field"><label class="field-label" for="email">メールアドレス *</label><input id="email" type="email" maxlength="140" autocomplete="email" required placeholder="name@example.com"><p class="hint">決済後のご連絡に使用します。</p></div>
       </div>
+      <details class="optional-info">
+        <summary>曲名・音源などを先に送る（任意） <span aria-hidden="true">＋</span></summary>
+        <div class="form-grid optional-grid">
+          <div class="field wide"><label class="field-label" for="audioUrl">音源データの共有URL</label><input id="audioUrl" type="url" inputmode="url" placeholder="https://..."><p class="hint">ギガファイル便・Google Driveなど。決済後の提出でもOK。</p></div>
+          <div class="field wide"><label class="field-label" for="songTitle">曲名</label><input id="songTitle" maxlength="160" placeholder="曲名 / アーティスト名"></div>
+          <div class="field wide"><label class="field-label" for="originalUrl">原曲URL</label><input id="originalUrl" type="url" inputmode="url" placeholder="https://..."></div>
+          <div class="field wide"><label class="field-label" for="contactHandle">X・DiscordのID（任意）</label><input id="contactHandle" maxlength="140" placeholder="@ユーザー名 / Discord ID"></div>
+          <div class="field wide"><label class="field-label" for="referenceUrl">参考音源URL</label><input id="referenceUrl" type="url" inputmode="url" placeholder="https://..."></div>
+          <div class="field"><label class="field-label" for="requestedDate">希望納期</label><input id="requestedDate" type="date"></div>
+          <div class="field wide"><label class="field-label" for="notes">ご希望・ご要望</label><textarea id="notes" maxlength="1200" placeholder="MIXの雰囲気やご希望など"></textarea></div>
+        </div>
+      </details>
+      <input type="hidden" id="contactMethod" value="email">
+      <div style="position:absolute;left:-99999px" aria-hidden="true"><label for="website">サイト</label><input type="text" id="website" tabindex="-1" autocomplete="off"></div>
     </fieldset>
-    <fieldset><legend><span class="n">04</span>ご確認</legend>
+        <fieldset><legend><span class="n">04</span>ご確認</legend>
       <label class="check"><input type="checkbox" id="acceptTerms" required><span><a href="/terms.html" target="_blank"><u>利用規約</u></a>・<a href="/privacy.html" target="_blank"><u>個人情報の取扱い</u></a>に同意します。*</span></label>
-      <p class="hint">お申し込み内容・合計金額をご確認のうえ、Stripeの決済ページに進みます。決済後に音源を確認し、詳細をご連絡します。制作開始前のキャンセルは全額返金です。<a href="/legal.html" target="_blank" rel="noopener noreferrer"><u>特定商取引法に基づく表示</u></a>もご確認ください。</p>
+      <p class="hint">お申し込み内容・合計金額をご確認のうえ、Stripeの決済ページに進みます。音源がまだない場合は、お支払い後にメールでご案内します。制作は音源の受領・確認後に開始します。制作開始前のキャンセルは全額返金です。<a href="/legal.html" target="_blank" rel="noopener noreferrer"><u>特定商取引法に基づく表示</u></a>もご確認ください。</p>
     </fieldset>
   </form>
   <aside class="review" aria-label="お支払い内容の確認">
@@ -136,7 +141,7 @@ input:focus,textarea:focus,select:focus{border-color:#151515;box-shadow:0 0 0 1p
     const p={
       plan:selected(),harmony:$('harmony').checked,videoSync:$('videoSync').checked,videoUrl:$('videoUrl').value,additionalSingers:Number($('additionalSingers').value),
       vocalTracks:Number($('vocalTracks').value),needsQuote:$('needsQuote').checked,
-      name:$('name').value,email:$('email').value,contactMethod:$('contactMethod').value,contactHandle:$('contactHandle').value,
+      name:$('name').value,email:$('email').value,contactMethod:'email',contactHandle:$('contactHandle').value||$('email').value,
       songTitle:$('songTitle').value,originalUrl:$('originalUrl').value,audioUrl:$('audioUrl').value,
       referenceUrl:$('referenceUrl').value,requestedDate:$('requestedDate').value,notes:$('notes').value,
       website:$('website').value,acceptTerms:$('acceptTerms').checked
