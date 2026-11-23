@@ -181,3 +181,30 @@ test('checkout accepts only name and email before uploading audio later',async()
     assert.equal(invalid.status,400,'If URL is entered, it must be valid');
   } finally {globalThis.fetch=savedFetch;}
 });
+
+test('X and Discord require IDs, while email needs no extra input',async()=>{
+  const db=database(),env=envFor(db);
+  const savedFetch=globalThis.fetch;
+  let stripeBody;
+  globalThis.fetch=async(_url,opts)=>{
+    stripeBody=new URLSearchParams(opts.body);
+    return new Response(JSON.stringify({id:'cs_test_contact_abcdefghijkl',url:'https://checkout.stripe.com/c/pay/contact-test'}),{status:200,headers:{'content-type':'application/json'}});
+  };
+  const basic={plan:'short',vocalTracks:1,additionalSingers:0,harmony:false,videoSync:false,name:'demo',email:'demo@example.test',acceptTerms:true};
+  try{
+    assert.equal((await worker.fetch(orderRequest({...basic,contactMethod:'x',contactHandle:''}),env)).status,400);
+    assert.equal((await worker.fetch(orderRequest({...basic,contactMethod:'discord',contactHandle:''}),env)).status,400);
+    const emailCheckout=await worker.fetch(orderRequest({...basic,contactMethod:'email',contactHandle:''}),env);
+    assert.equal(emailCheckout.status,200);
+    assert.equal(stripeBody.get('metadata[contact_method]'),'email');
+    assert.equal(stripeBody.get('metadata[contact_handle]'),'demo@example.test');
+    const xCheckout=await worker.fetch(orderRequest({...basic,contactMethod:'x',contactHandle:'@singer'}),env);
+    assert.equal(xCheckout.status,200);
+    assert.equal(stripeBody.get('metadata[contact_method]'),'x');
+    assert.equal(stripeBody.get('metadata[contact_handle]'),'@singer');
+    const discordCheckout=await worker.fetch(orderRequest({...basic,contactMethod:'discord',contactHandle:'demo.user'}),env);
+    assert.equal(discordCheckout.status,200);
+    assert.equal(stripeBody.get('metadata[contact_method]'),'discord');
+    assert.equal(stripeBody.get('metadata[contact_handle]'),'demo.user');
+  }finally{globalThis.fetch=savedFetch;}
+});
