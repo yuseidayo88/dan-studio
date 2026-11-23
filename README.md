@@ -23,15 +23,16 @@ After the connection, pushing to `main` triggers a deployment. The site is avail
 
 - The public form lives at /request.html. Front-end pricing is for display only; src/index.js validates and recalculates prices on the server.
 - D1 production database: dan-studio-orders. Tables: orders, webhook_events and checkout_limits.
-- Before taking real payments: Verify Stripe eligibility, policies and legal disclosures. Configure Stripe webhook: https://dan-studio.yuseidayo88.workers.dev/api/stripe-webhook with checkout.session.completed, checkout.session.async_payment_succeeded, checkout.session.async_payment_failed, checkout.session.expired events.
+- Before taking real payments: Verify Stripe eligibility, policies and legal disclosures. Configure Stripe webhook for the primary domain: https://danstudio-wav.pages.dev/api/stripe-webhook with checkout.session.completed, checkout.session.async_payment_succeeded, checkout.session.async_payment_failed, checkout.session.expired events.
 - Add a restricted Stripe API key (STRIPE_API_KEY) and webhook secret (STRIPE_WEBHOOK_SECRET) as Cloudflare Worker secrets only; never put them in GitHub.
 - After sandbox verification, set plaintext Worker variable PAYMENTS_ENABLED=true. Until then the form is visible but payments are disabled and /api/checkout returns 503.
 - Test webhook signature verification and database paid status before enabling live charges. Monitor paid requests in D1 or build a protected admin notification workflow.
 
-## Cloudflare Pages mirror
+## Primary URL: Cloudflare Pages
 
-- Cloudflare Pages project: `danstudio` (GitHub main, output `public`).
-- Assigned Pages URL: `https://danstudio-6zy.pages.dev/` (`danstudio.pages.dev` was not allocated by Cloudflare).
-- `public/_worker.js` mirrors `src/index.js` for the Pages advanced-mode Worker; do not put live API credentials in either file.
-- Original Worker stays live at the existing workers.dev URL until Pages is verified.
-- Stripe stays disabled until separate Pages environment secrets and the matching webhook are configured and tested.
+- Preferred public URL: `https://danstudio-wav.pages.dev/`.
+- Cloudflare Pages project: `danstudio-wav` (GitHub `main`, build output `public`). Every commit automatically deploys.
+- Earlier Pages project: `danstudio` / `https://danstudio-6zy.pages.dev/` (legacy copy; no longer recommended to share).
+- `public/_worker.js` mirrors `src/index.js` for Pages advanced-mode API. D1 is bound as `DB` to the Pages project.
+- The original `dan-studio` Cloudflare Worker also remains live. No request traffic is redirected automatically.
+- Stripe checkout remains intentionally disabled until Pages secrets and a verified production webhook are configured, tested, and legal disclosures are ready. The old webhook destination for the original Worker must not be reused blindly for the Pages site.
