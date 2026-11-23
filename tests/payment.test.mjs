@@ -1,9 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { createHmac, webcrypto } from 'node:crypto';
-
-globalThis.crypto = webcrypto;
+import { createHmac } from 'node:crypto';
 const workerSource = readFileSync(new URL('../public/_worker.js', import.meta.url), 'utf8');
 const oldWorkerSource = readFileSync(new URL('../src/index.js', import.meta.url), 'utf8');
 assert.equal(workerSource, oldWorkerSource, 'Pages and Worker server implementations must match');
